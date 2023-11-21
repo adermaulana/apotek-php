@@ -156,15 +156,15 @@ if(isset($_POST['simpan'])){
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="../penjualan/index.php">
-              <span data-feather="shopping-cart" class="align-text-bottom"></span>
-              Penjualan
+            <a class="nav-link" href="../obat/index.php">
+              <span data-feather="users" class="align-text-bottom"></span>
+              Obat
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link <?php if ($_SERVER['REQUEST_URI'] === '/apotek_sp/admin/obat/tambah.php') echo 'active'; ?>" href="../obat/index.php">
-              <span data-feather="users" class="align-text-bottom"></span>
-              Obat
+            <a class="nav-link  <?php if ($_SERVER['REQUEST_URI'] === '/apotek-php/admin/penjualan/tambah.php') echo 'active'; ?>" href="../penjualan/index.php">
+              <span data-feather="shopping-cart" class="align-text-bottom"></span>
+              Penjualan
             </a>
           </li>
           <li class="nav-item">
@@ -191,12 +191,12 @@ if(isset($_POST['simpan'])){
     <div class="mb-3">
          <label for="obat_id" class="form-label">Obat</label>
             <select class="form-select" id="obat_id" name="obat_id">
+            <option value="0" >Pilih</option>
             <?php
                 $no = 1;
                 $tampil = mysqli_query($koneksi, "SELECT * FROM obat");
                 while($data = mysqli_fetch_array($tampil)):
                 ?>
-                    <option value="0" ></option>
                   <option value="<?= $data[0]?>" data-harga="<?= $data[3] ?>" data-stok="<?= $data[4] ?>" ><?= $data[1]?></option>
                   <?php 
                  endwhile; 

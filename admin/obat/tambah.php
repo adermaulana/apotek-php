@@ -119,15 +119,15 @@ if(isset($_POST['simpan'])){
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="../penjualan/index.php">
-              <span data-feather="shopping-cart" class="align-text-bottom"></span>
-              Penjualan
+            <a class="nav-link <?php if ($_SERVER['REQUEST_URI'] === '/apotek-php/admin/obat/tambah.php') echo 'active'; ?>" href="../obat/index.php">
+              <span data-feather="users" class="align-text-bottom"></span>
+              Obat
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link <?php if ($_SERVER['REQUEST_URI'] === '/apotek_sp/admin/obat/tambah.php') echo 'active'; ?>" href="../obat/index.php">
-              <span data-feather="users" class="align-text-bottom"></span>
-              Obat
+            <a class="nav-link" href="../penjualan/index.php">
+              <span data-feather="shopping-cart" class="align-text-bottom"></span>
+              Penjualan
             </a>
           </li>
           <li class="nav-item">

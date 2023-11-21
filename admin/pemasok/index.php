@@ -109,15 +109,9 @@ if(isset($_GET['hal']) == "hapus"){
       <div class="position-sticky pt-3 sidebar-sticky">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="../index.php">
+            <a class="nav-link" aria-current="page" href="../index.php">
               <span data-feather="home" class="align-text-bottom"></span>
               Dashboard
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="../penjualan/index.php">
-              <span data-feather="shopping-cart" class="align-text-bottom"></span>
-              Penjualan
             </a>
           </li>
           <li class="nav-item">
@@ -127,7 +121,13 @@ if(isset($_GET['hal']) == "hapus"){
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="../pemasok/index.php">
+            <a class="nav-link" href="../penjualan/index.php">
+              <span data-feather="shopping-cart" class="align-text-bottom"></span>
+              Penjualan
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link <?php if ($_SERVER['REQUEST_URI'] === '/apotek-php/admin/pemasok/index.php') echo 'active'; ?>" href="../pemasok/index.php">
               <span data-feather="users" class="align-text-bottom"></span>
               Pemasok
             </a>

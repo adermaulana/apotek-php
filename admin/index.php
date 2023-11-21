@@ -127,15 +127,15 @@ $lastLoginIP = $_SERVER['REMOTE_ADDR'];
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="../admin/penjualan/index.php">
-              <span data-feather="shopping-cart" class="align-text-bottom"></span>
-              Penjualan
-            </a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link" href="../admin/obat/index.php">
               <span data-feather="users" class="align-text-bottom"></span>
               Obat
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../admin/penjualan/index.php">
+              <span data-feather="shopping-cart" class="align-text-bottom"></span>
+              Penjualan
             </a>
           </li>
           <li class="nav-item">
@@ -151,7 +151,6 @@ $lastLoginIP = $_SERVER['REMOTE_ADDR'];
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Dashboard</h1>
-        <p> <?= $lastLoginIP ?> </p>
       </div>
           <!-- Left side columns -->
     <div class="col-lg-12 mt-5">
@@ -203,7 +202,7 @@ $lastLoginIP = $_SERVER['REMOTE_ADDR'];
         </div><!-- End Revenue Card -->
 
         <!-- Revenue Card -->
-        <div class="col-xxl-4 col-md-6">
+        <div class="col-xxl-4 col-md-6 mt-3">
           <div class="card info-card revenue-card">
 
             <div class="card-body">

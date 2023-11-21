@@ -1,48 +1,79 @@
-<?php include 'partials/header.php'; ?>
+<?php
 
-<section class="jumbotron text-center mt-5">
-        <div class="container">
-            <h1>Selamat Datang di Apotek Kami</h1>
-            <p>Temukan obat-obatan berkualitas dan pelayanan terbaik di sini.</p>
-            <a href="obat.php" class="btn btn-success btn-lg">Lihat Obat-obatan</a>
+    include 'config/koneksi.php';
+
+    session_start();
+
+    if(isset($_SESSION['status']) == 'login'){
+
+        header("location:admin");
+    }
+
+    if(isset($_POST['login'])){
+
+        $username = $_POST['username'];
+        $password = md5($_POST['password']);
+
+        $login = mysqli_query($koneksi, "SELECT * FROM user WHERE username='$username' and password='$password'");
+        $cek = mysqli_num_rows($login);
+
+        if($cek > 0) {
+            $_SESSION['username'] = $username;
+            $_SESSION['status'] = "login";
+            header('location:admin');
+        } else {
+            echo "<script>
+            alert('Login Gagal, Periksa Username dan Password Anda!');
+            header('location:index.php');
+                 </script>";
+        }
+    }
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .login-form {
+            max-width: 400px;
+            margin: 0 auto;
+            margin-top: 100px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="login-form">
+                    <h2 class="text-center">Login Admin</h2>
+                    <form method="post">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" name="username" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        <button type="submit" name="login" class="btn btn-primary btn-block">Login</button>
+                    </form>
+                </div>
+            </div>
         </div>
-    </section>
+    </div>
 
-    <section class="container mt-5">
-        <h2 class="text-center mb-4">Daftar Obat-obatan</h2>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card mb-4">
-                    <img src="img/antimo.jpg" class="card-img-top" alt="Obat 1">
-                    <div class="card-body">
-                        <h5 class="card-title">Antimo</h5>
-                        <p class="card-text">Deskripsi</p>
-                        <a href="https://wa.me/6285397425303" target="_blank" class="btn btn-primary">Beli</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card mb-4">
-                    <img src="img/mixagrip.jpg" class="card-img-top" alt="Obat 2">
-                    <div class="card-body">
-                        <h5 class="card-title">Mixagrip</h5>
-                        <p class="card-text">Deskripsi</p>
-                        <a href="https://wa.me/6285397425303" target="_blank" class="btn btn-primary">Beli</a>
-
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card mb-4">
-                    <img src="img/OBH.jpg" class="card-img-top" alt="Obat 3">
-                    <div class="card-body">
-                        <h5 class="card-title">OBH</h5>
-                        <p class="card-text">Deskripsi obat 3.</p>
-                        <a href="https://wa.me/6285397425303" target="_blank" class="btn btn-primary">Beli</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-<?php include 'partials/footer.php'; ?>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</body>
+</html>
