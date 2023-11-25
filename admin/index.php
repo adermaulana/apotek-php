@@ -13,21 +13,22 @@ if($_SESSION['status'] != 'login'){
 
 }
 
+
 //get semua obat
-$obat = "SELECT COUNT(*) as id FROM obat";
+$obat = "SELECT COUNT(*) as id FROM data_obat";
 $resultobat = $koneksi->query($obat);
 $rowobat = $resultobat->fetch_assoc();
 $jumlah_obat = $rowobat["id"];
 
 
 //get semua pemasok
-$pemasok = "SELECT COUNT(*) as id FROM pemasok";
+$pemasok = "SELECT COUNT(*) as id FROM data_pemasok";
 $resultpemasok = $koneksi->query($pemasok);
 $rowpemasok = $resultpemasok->fetch_assoc();
 $jumlah_pemasok = $rowpemasok["id"];
 
 //get semua penjualan
-$penjualan = "SELECT SUM(harga_total) as total_harga_penjualan FROM penjualan";
+$penjualan = "SELECT SUM(harga_total_penjualan) as total_harga_penjualan FROM data_penjualan";
 $resultpenjualan = $koneksi->query($penjualan);
 $rowpenjualan = $resultpenjualan->fetch_assoc();
 $total_penjualan = $rowpenjualan["total_harga_penjualan"];

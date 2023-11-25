@@ -13,7 +13,7 @@ if($_SESSION['status'] != 'login'){
 }
 
 if(isset($_POST['simpan'])){
-    $simpan = mysqli_query($koneksi, "INSERT INTO obat (nama_obat,deskripsi,harga ,stok, pemasok_id) VALUES ('$_POST[nama_obat]','$_POST[deskripsi]','$_POST[harga]','$_POST[stok]','$_POST[pemasok_id]')");
+    $simpan = mysqli_query($koneksi, "INSERT INTO data_obat (nama_obat,deskripsi_obat,harga_obat , id_pemasok) VALUES ('$_POST[nama_obat]','$_POST[deskripsi]','$_POST[harga]','$_POST[pemasok_id]')");
 
     if($simpan){
         echo "<script>
@@ -163,19 +163,16 @@ if(isset($_POST['simpan'])){
             <label for="harga" class="form-label">Harga</label>
             <input type="number" class="form-control" id="harga" name="harga">
         </div>
-         <div class="mb-3">
-            <label for="stok" class="form-label">Stok</label>
-            <input type="text" class="form-control" id="stok" name="stok">
-        </div>
         <div class="mb-3">
          <label for="pemasok_id" class="form-label">Pemasok</label>
             <select class="form-select" id="pemasok" name="pemasok_id">
+            <option value="0" selected>Pilih</option>
             <?php
                 $no = 1;
-                $tampil = mysqli_query($koneksi, "SELECT * FROM pemasok");
+                $tampil = mysqli_query($koneksi, "SELECT * FROM data_pemasok");
                 while($data = mysqli_fetch_array($tampil)):
                 ?>
-                  <option value="<?= $data[0]?>" selected><?= $data[1]?></option>
+                  <option value="<?= $data[0]?>" ><?= $data[2]?></option>
                   <?php
                  endwhile; 
                 ?>

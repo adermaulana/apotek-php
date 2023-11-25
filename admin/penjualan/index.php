@@ -14,7 +14,7 @@ if($_SESSION['status'] != 'login'){
 
 if(isset($_GET['hal']) == "hapus"){
 
-  $hapus = mysqli_query($koneksi, "DELETE FROM penjualan WHERE id = '$_GET[id]'");
+  $hapus = mysqli_query($koneksi, "DELETE FROM data_penjualan WHERE id_penjualan = '$_GET[id]'");
 
   if($hapus){
       echo "<script>
@@ -151,6 +151,7 @@ if(isset($_GET['hal']) == "hapus"){
             <tr>
               <th scope="col">No</th>
               <th scope="col">Nama Obat</th>
+              <th scope="col">Nama Pelanggan</th>
               <th scope="col">Harga</th>
               <th scope="col">Jumlah</th>
               <th scope="col">Tanggal Beli</th>
@@ -161,20 +162,22 @@ if(isset($_GET['hal']) == "hapus"){
           <tbody>
           <?php
                 $no = 1;
-                $tampil = mysqli_query($koneksi, "SELECT p.*, o.nama_obat
-                FROM penjualan p
-                JOIN obat o ON p.obat_id = o.id");
+                $tampil = mysqli_query($koneksi, "SELECT p.*, o.nama_obat, pel.nama_pelanggan
+                FROM data_penjualan p
+                JOIN data_pelanggan pel ON p.id_pelanggan = pel.id_pelanggan
+                JOIN data_obat o ON p.id_obat = o.id_obat");
                 while($data = mysqli_fetch_array($tampil)):
                 ?>
             <tr>
                     <td><?= $no++; ?></td>
                     <td><?= $data['nama_obat']; ?></td>
-                    <td><?= $data[2]; ?></td>
-                    <td><?= $data[3]; ?></td> 
-                    <td><?= $data[1]; ?></td> 
-                    <td>Rp. <?= number_format($data['harga_total'],0,',','.'); ?></td> 
+                    <td><?= $data['nama_pelanggan']; ?></td>
+                    <td><?= $data['harga_penjualan']; ?></td>
+                    <td><?= $data['jumlah_penjualan']; ?></td> 
+                    <td><?= $data['tanggal_penjualan']; ?></td> 
+                    <td>Rp. <?= number_format($data['harga_total_penjualan'],0,',','.'); ?></td> 
               <td>
-                    <a href="index.php?hal=hapus&id=<?= $data['id']?>" class="badge bg-danger border-0" onclick="return confirm('Apakah Anda Yakin Ingin Menghapus Data?')"><span data-feather="x-circle"></span></a>
+                    <a href="index.php?hal=hapus&id=<?= $data['id_penjualan']?>" class="badge bg-danger border-0" onclick="return confirm('Apakah Anda Yakin Ingin Menghapus Data?')"><span data-feather="x-circle"></span></a>
               </td>
             </tr>
             <?php

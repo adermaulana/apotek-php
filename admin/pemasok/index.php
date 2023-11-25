@@ -14,7 +14,7 @@ if($_SESSION['status'] != 'login'){
 
 if(isset($_GET['hal']) == "hapus"){
 
-  $hapus = mysqli_query($koneksi, "DELETE FROM pemasok WHERE id = '$_GET[id]'");
+  $hapus = mysqli_query($koneksi, "DELETE FROM data_pemasok WHERE id_pemasok = '$_GET[id]'");
 
   if($hapus){
       echo "<script>
@@ -150,22 +150,24 @@ if(isset($_GET['hal']) == "hapus"){
               <th scope="col">No</th>
               <th scope="col">Nama Pemasok</th>
               <th scope="col">Alamat</th>
+              <th scope="col">Telepon</th>
               <th scope="col">Action</th>
             </tr>
           </thead>
           <tbody>
           <?php
                 $no = 1;
-                $tampil = mysqli_query($koneksi, "SELECT * FROM pemasok");
+                $tampil = mysqli_query($koneksi, "SELECT * FROM data_pemasok");
                 while($data = mysqli_fetch_array($tampil)):
                 ?>
             <tr>
               <td><?= $no++ ?></td>
               <td><?= $data['nama_pemasok'] ?></td>
-              <td><?= $data['alamat'] ?></td>
+              <td><?= $data['alamat_pemasok'] ?></td>
+              <td><?= $data['telepon_pemasok'] ?></td>
               <td>
-                <a href="edit.php?hal=edit&id=<?= $data['id']?>" class="badge bg-warning"><span data-feather="edit"></span></a>
-                    <a href="index.php?hal=hapus&id=<?= $data['id']?>" class="badge bg-danger border-0" onclick="return confirm('Apakah Anda Yakin Ingin Menghapus Data?')"><span data-feather="x-circle"></span></a>
+                <a href="edit.php?hal=edit&id=<?= $data['id_pemasok']?>" class="badge bg-warning"><span data-feather="edit"></span></a>
+                    <a href="index.php?hal=hapus&id=<?= $data['id_pemasok']?>" class="badge bg-danger border-0" onclick="return confirm('Apakah Anda Yakin Ingin Menghapus Data?')"><span data-feather="x-circle"></span></a>
               </td>
             </tr>
             <?php

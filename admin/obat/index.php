@@ -14,7 +14,7 @@ if($_SESSION['status'] != 'login'){
 
 if(isset($_GET['hal']) == "hapus"){
 
-  $hapus = mysqli_query($koneksi, "DELETE FROM obat WHERE id = '$_GET[id]'");
+  $hapus = mysqli_query($koneksi, "DELETE FROM data_obat WHERE id_obat = '$_GET[id]'");
 
   if($hapus){
       echo "<script>
@@ -161,8 +161,8 @@ if(isset($_GET['hal']) == "hapus"){
           <?php
                 $no = 1;
                 $tampil = mysqli_query($koneksi, "SELECT o.*, p.nama_pemasok
-                FROM obat o
-                JOIN pemasok p ON o.pemasok_id = p.id");
+                FROM data_obat o
+                JOIN data_pemasok p ON o.id_pemasok = p.id_pemasok");
                 while($data = mysqli_fetch_array($tampil)):
                 ?>
             <tr>
@@ -173,8 +173,8 @@ if(isset($_GET['hal']) == "hapus"){
                     <td><?= $data[4]; ?></td> 
                     <td><?= $data['nama_pemasok']; ?></td> 
               <td>
-                <a  href="edit.php?hal=edit&id=<?= $data['id']?>" class="badge bg-warning"><span data-feather="edit"></span></a>
-                    <a href="index.php?hal=hapus&id=<?= $data['id']?>" class="badge bg-danger border-0" onclick="return confirm('Apakah Anda Yakin Ingin Menghapus Data?')"><span data-feather="x-circle"></span></a>
+                <a  href="edit.php?hal=edit&id=<?= $data['id_obat']?>" class="badge bg-warning"><span data-feather="edit"></span></a>
+                    <a href="index.php?hal=hapus&id=<?= $data['id_obat']?>" class="badge bg-danger border-0" onclick="return confirm('Apakah Anda Yakin Ingin Menghapus Data?')"><span data-feather="x-circle"></span></a>
               </td>
             </tr>
             <?php

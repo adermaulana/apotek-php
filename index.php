@@ -14,11 +14,13 @@
         $username = $_POST['username'];
         $password = md5($_POST['password']);
 
-        $login = mysqli_query($koneksi, "SELECT * FROM user WHERE username='$username' and password='$password'");
+        $login = mysqli_query($koneksi, "SELECT * FROM data_admin WHERE username_admin='$username' and password_admin='$password'");
         $cek = mysqli_num_rows($login);
 
         if($cek > 0) {
-            $_SESSION['username'] = $username;
+            $admin_data = mysqli_fetch_assoc($login);
+            $_SESSION['id_admin'] = $admin_data['id_admin'];
+            $_SESSION['username_admin'] = $username;
             $_SESSION['status'] = "login";
             header('location:admin');
         } else {

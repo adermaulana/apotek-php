@@ -14,15 +14,14 @@ if($_SESSION['status'] != 'login'){
 
         if(isset($_GET['hal'])){
             if($_GET['hal'] == "edit"){
-                $tampil = mysqli_query($koneksi, "SELECT * FROM obat WHERE id = '$_GET[id]'");
+                $tampil = mysqli_query($koneksi, "SELECT * FROM data_obat WHERE id_obat = '$_GET[id]'");
                 $data = mysqli_fetch_array($tampil);
                 if($data){
-                    $id = $data['id'];
+                    $id = $data['id_obat'];
                     $nama_obat = $data['nama_obat'];
-                    $deskripsi = $data['deskripsi'];
-                    $harga = $data['harga'];
-                    $stok = $data['stok'];
-                    $pemasok = $data['pemasok_id'];
+                    $deskripsi = $data['deskripsi_obat'];
+                    $harga = $data['harga_obat'];
+                    $pemasok = $data['id_pemasok'];
                 }
             }
         }
@@ -30,12 +29,11 @@ if($_SESSION['status'] != 'login'){
         //Perintah Mengubah Data
         if(isset($_POST['simpan'])){
 
-            $simpan = mysqli_query($koneksi, "UPDATE obat SET
+            $simpan = mysqli_query($koneksi, "UPDATE data_obat SET
                                                 nama_obat = '$_POST[nama_obat]',
-                                                deskripsi = '$_POST[deskripsi]',
-                                                harga = '$_POST[harga]',
-                                                stok = '$_POST[stok]',
-                                                pemasok_id = '$_POST[pemasok_id]' WHERE id = '$_GET[id]'");
+                                                deskripsi_obat = '$_POST[deskripsi]',
+                                                harga_obat = '$_POST[harga]',
+                                                id_pemasok = '$_POST[pemasok_id]' WHERE id_obat = '$_GET[id]'");
             
         if($simpan){
             echo "<script>
@@ -185,19 +183,16 @@ if($_SESSION['status'] != 'login'){
             <label for="harga" class="form-label">Harga</label>
             <input type="number" class="form-control" id="harga" value="<?= $harga ?>" name="harga">
         </div>
-         <div class="mb-3">
-            <label for="stok" class="form-label">Stok</label>
-            <input type="text" class="form-control" id="stok" value="<?= $stok ?>" name="stok">
-        </div>
         <div class="mb-3">
          <label for="pemasok_id" class="form-label">Pemasok</label>
             <select class="form-select" id="pemasok" name="pemasok_id">
+              <option value="0" selected>Pilih</option>
             <?php
                 $no = 1;
-                $tampil = mysqli_query($koneksi, "SELECT * FROM pemasok");
+                $tampil = mysqli_query($koneksi, "SELECT * FROM data_pemasok");
                 while($data = mysqli_fetch_array($tampil)):
                 ?>
-                  <option value="<?= $data[0]?>" selected><?= $data[1]?></option>
+                  <option value="<?= $data[0]?>" ><?= $data[2]?></option>
                   <?php
                  endwhile; 
                 ?>

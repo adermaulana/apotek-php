@@ -14,12 +14,12 @@ if($_SESSION['status'] != 'login'){
 
 if(isset($_GET['hal'])){
     if($_GET['hal'] == "edit"){
-        $tampil = mysqli_query($koneksi, "SELECT * FROM pemasok WHERE id = '$_GET[id]'");
+        $tampil = mysqli_query($koneksi, "SELECT * FROM data_pemasok WHERE id_pemasok = '$_GET[id]'");
         $data = mysqli_fetch_array($tampil);
         if($data){
-            $id = $data['id'];
+            $id = $data['id_pemasok'];
             $nama_pemasok = $data['nama_pemasok'];
-            $alamat = $data['alamat'];
+            $alamat = $data['alamat_pemasok'];
         }
     }
 }
@@ -27,9 +27,9 @@ if(isset($_GET['hal'])){
 //Perintah Mengubah Data
 if(isset($_POST['simpan'])){
 
-    $simpan = mysqli_query($koneksi, "UPDATE pemasok SET
+    $simpan = mysqli_query($koneksi, "UPDATE data_pemasok SET
                                         nama_pemasok = '$_POST[nama_pemasok]',
-                                        alamat = '$_POST[alamat]' WHERE id = '$_GET[id]'");
+                                        alamat_pemasok = '$_POST[alamat]' WHERE id_pemasok = '$_GET[id]'");
     
 if($simpan){
     echo "<script>

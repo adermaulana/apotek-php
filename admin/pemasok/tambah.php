@@ -12,8 +12,9 @@ if($_SESSION['status'] != 'login'){
     header("location:../");
 }
 
+
 if(isset($_POST['simpan'])){
-    $simpan = mysqli_query($koneksi, "INSERT INTO pemasok (nama_pemasok, alamat) VALUES ('$_POST[nama_pemasok]','$_POST[alamat]')");
+    $simpan = mysqli_query($koneksi, "INSERT INTO data_pemasok (nama_pemasok, alamat_pemasok,telepon_pemasok) VALUES ('$_POST[nama_pemasok]','$_POST[alamat]','$_POST[telepon]')");
 
     if($simpan){
         echo "<script>
@@ -90,7 +91,7 @@ if(isset($_POST['simpan'])){
         white-space: nowrap;
         -webkit-overflow-scrolling: touch;
       }
-    </style>
+  </style>
 
 </head>
 <body>
@@ -158,6 +159,10 @@ if(isset($_POST['simpan'])){
          <div class="mb-3">
             <label for="deskripsi" class="form-label">Alamat</label>
             <input type="text" class="form-control" id="alamat" name="alamat">
+        </div>
+         <div class="mb-3">
+            <label for="telepon" class="form-label">Telepon</label>
+            <input type="number" class="form-control" id="telepon" name="telepon">
         </div>
             <button style="background-color:#3a5a40; color:white;" type="submit" name="simpan" class="btn btn">Tambah Data</button>
     </form>  

@@ -20,12 +20,12 @@ if(isset($_POST['simpan'])){
         $jumlahPembelian = $_POST["jumlah"]; // Jumlah obat yang dibeli
 
         // Query database untuk mendapatkan stok obat berdasarkan obat_id
-        $query = "SELECT stok FROM obat WHERE id = $obatId";
+        $query = "SELECT stok_obat FROM data_obat WHERE id_obat = $obatId";
         $result = $koneksi->query($query);
 
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
-            $stokObat = $row["stok"];
+            $stokObat = $row["stok_obat"];
 
             // Periksa apakah jumlah obat yang dibeli tidak melebihi stok yang tersedia
             if ($jumlahPembelian <= $stokObat) {
@@ -33,10 +33,10 @@ if(isset($_POST['simpan'])){
                 $stokObat -= $jumlahPembelian;
 
                 // Update stok obat dalam database
-                $updateQuery = "UPDATE obat SET stok = $stokObat WHERE id = $obatId";
+                $updateQuery = "UPDATE data_obat SET stok_obat = $stokObat WHERE id_obat = $obatId";
                 if ($koneksi->query($updateQuery) === TRUE) {
                     echo "Stok obat berhasil diperbarui.";
-                    $simpan = mysqli_query($koneksi, "INSERT INTO penjualan (obat_id,harga ,jumlah, tanggal, harga_total) VALUES ('$_POST[obat_id]','$_POST[harga]','$_POST[jumlah]','$_POST[tanggal]','$_POST[harga_total]')");
+                    $simpan = mysqli_query($koneksi, "INSERT INTO data_penjualan (id_obat,harga_penjualan ,jumlah_penjualan, tanggal_penjualan, harga_total_penjualan, id_pelanggan) VALUES ('$_POST[obat_id]','$_POST[harga]','$_POST[jumlah]','$_POST[tanggal]','$_POST[harga_total]','$_POST[id_pelanggan]')");
                 } else {
                     echo "Gagal mengupdate stok obat.";
                 }
@@ -194,10 +194,25 @@ if(isset($_POST['simpan'])){
             <option value="0" >Pilih</option>
             <?php
                 $no = 1;
-                $tampil = mysqli_query($koneksi, "SELECT * FROM obat");
+                $tampil = mysqli_query($koneksi, "SELECT * FROM data_obat");
                 while($data = mysqli_fetch_array($tampil)):
                 ?>
                   <option value="<?= $data[0]?>" data-harga="<?= $data[3] ?>" data-stok="<?= $data[4] ?>" ><?= $data[1]?></option>
+                  <?php 
+                 endwhile; 
+                ?>
+            </select>
+        </div>
+    <div class="mb-3">
+         <label for="id_pelanggan" class="form-label">Nama Pelanggan</label>
+            <select class="form-select" id="obat_id" name="id_pelanggan">
+            <option value="0" >Pilih</option>
+            <?php
+                $no = 1;
+                $tampil = mysqli_query($koneksi, "SELECT * FROM data_pelanggan");
+                while($data = mysqli_fetch_array($tampil)):
+                ?>
+                  <option value="<?= $data[0]?>" ><?= $data[1]?></option>
                   <?php 
                  endwhile; 
                 ?>
