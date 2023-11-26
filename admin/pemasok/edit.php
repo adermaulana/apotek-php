@@ -147,6 +147,12 @@ if($simpan){
             </a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="../pembelian/index.php">
+              <span data-feather="shopping-bag" class="align-text-bottom"></span>
+              Pembelian
+            </a>
+          </li> 
+          <li class="nav-item">
             <a class="nav-link <?php if ($_SERVER['REQUEST_URI'] === '/apotek-php/admin/pemasok/edit.php?hal=edit&id=' . $id) echo 'active'; ?>" href="../pemasok/index.php">
               <span data-feather="users" class="align-text-bottom"></span>
               Pemasok

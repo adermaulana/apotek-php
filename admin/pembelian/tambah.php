@@ -12,41 +12,51 @@ if($_SESSION['status'] != 'login'){
     header("location:../");
 }
 
-        if(isset($_GET['hal'])){
-            if($_GET['hal'] == "edit"){
-                $tampil = mysqli_query($koneksi, "SELECT * FROM data_obat WHERE id_obat = '$_GET[id]'");
-                $data = mysqli_fetch_array($tampil);
-                if($data){
-                    $id = $data['id_obat'];
-                    $nama_obat = $data['nama_obat'];
-                    $deskripsi = $data['deskripsi_obat'];
-                    $harga = $data['harga_obat'];
-                    $pemasok = $data['id_pemasok'];
+if(isset($_POST['simpan'])){
+
+    // Periksa apakah ada permintaan obat_id dan jumlah_obat dari AJAX
+    if (isset($_POST["obat_id"]) && isset($_POST["jumlah"])) {
+        $obatId = $_POST["obat_id"];
+        $jumlahPembelian = $_POST["jumlah"]; // Jumlah obat yang dibeli
+
+        // Query database untuk mendapatkan stok obat berdasarkan obat_id
+        $query = "SELECT stok_obat FROM data_obat WHERE id_obat = $obatId";
+        $result = $koneksi->query($query);
+
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $stokObat = $row["stok_obat"];
+
+                // Kurangkan stok obat yang tersedia
+                $stokObat += $jumlahPembelian;
+
+                // Update stok obat dalam database
+                $updateQuery = "UPDATE data_obat SET stok_obat = $stokObat WHERE id_obat = $obatId";
+                if ($koneksi->query($updateQuery) === TRUE) {
+                    echo "Stok obat berhasil diperbarui.";
+                    $simpan = mysqli_query($koneksi, "INSERT INTO data_pembelian (id_obat,harga_pembelian ,jumlah_pembelian, tanggal_pembelian, total_pembelian, id_pemasok) VALUES ('$_POST[obat_id]','$_POST[harga]','$_POST[jumlah]','$_POST[tanggal]','$_POST[harga_total]','$_POST[id_pemasok]')");
+                } else {
+                    echo "Gagal mengupdate stok obat.";
                 }
-            }
-        }
-
-        //Perintah Mengubah Data
-        if(isset($_POST['simpan'])){
-
-            $simpan = mysqli_query($koneksi, "UPDATE data_obat SET
-                                                nama_obat = '$_POST[nama_obat]',
-                                                deskripsi_obat = '$_POST[deskripsi]',
-                                                harga_obat = '$_POST[harga]',
-                                                id_pemasok = '$_POST[pemasok_id]' WHERE id_obat = '$_GET[id]'");
             
-        if($simpan){
-            echo "<script>
-                    alert('Edit data sukses!');
-                    document.location='index.php';
-                </script>";
         } else {
-            echo "<script>
-                    alert('Edit data Gagal!');
-                    document.location='index.php';
-                </script>";
+            echo "Obat tidak ditemukan.";
         }
-        }
+    }
+
+    if($simpan){
+        echo "<script>
+                alert('Simpan data sukses!');
+                document.location='index.php';
+            </script>";
+    } else {
+        echo "<script>
+                alert('Simpan data Gagal!');
+                document.location='index.php';
+            </script>";
+    }
+}
+
 
 ?>
 
@@ -60,7 +70,6 @@ if($_SESSION['status'] != 'login'){
   <link rel="stylesheet" href="../../assets/dashboard.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-
   <style>
       .bd-placeholder-img {
         font-size: 1.125rem;
@@ -124,7 +133,7 @@ if($_SESSION['status'] != 'login'){
   </button>
   <div class="navbar-nav">
     <div class="nav-item text-nowrap">
-      <a class="nav-link px-3" href="hapusSession.php">Sign out</a>
+      <a class="nav-link px-3" href="../hapusSession.php">Sign out</a>
     </div>
   </div>
 </header>
@@ -141,7 +150,7 @@ if($_SESSION['status'] != 'login'){
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link <?php if ($_SERVER['REQUEST_URI'] === '/apotek-php/admin/obat/edit.php?hal=edit&id=' . $id) echo 'active'; ?>" href="../obat/index.php">
+            <a class="nav-link" href="../obat/index.php">
               <span data-feather="users" class="align-text-bottom"></span>
               Obat
             </a>
@@ -153,7 +162,7 @@ if($_SESSION['status'] != 'login'){
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="../pembelian/index.php">
+            <a class="nav-link <?php if ($_SERVER['REQUEST_URI'] === '/apotek-php/admin/pembelian/tambah.php') echo 'active'; ?>" href="../pembelian/index.php">
               <span data-feather="shopping-bag" class="align-text-bottom"></span>
               Pembelian
             </a>
@@ -171,42 +180,65 @@ if($_SESSION['status'] != 'login'){
    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
     <div class="col-lg-12">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Data Obat</h1>
+        <h1 class="h2">Data Penjualan</h1>
       </div>
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Edit Obat</h1>
+        <h1 class="h2">Tambah Penjualan</h1>
       </div>
 
 <div class="col-lg-8">
     <form method="post" class="mb-5" enctype="multipart/form-data">
-         <div class="mb-3">
-        <label for="name" class="form-label">Nama Obat</label>
-            <input type="text" class="form-control" id="nama_obat" name="nama_obat" value="<?= $nama_obat ?>" required autofocus>
+    <div class="mb-3">
+         <label for="obat_id" class="form-label">Obat</label>
+            <select class="form-select js-example-basic-single" id="obat_id" name="obat_id">
+            <option value="0" >Pilih</option>
+            <?php
+                $no = 1;
+                $tampil = mysqli_query($koneksi, "SELECT * FROM data_obat");
+                while($data = mysqli_fetch_array($tampil)):
+                ?>
+                  <option value="<?= $data[0]?>" data-harga="<?= $data[3] ?>" data-stok="<?= $data[4] ?>" ><?= $data[1]?></option>
+                  <?php 
+                 endwhile; 
+                ?>
+            </select>
         </div>
-         <div class="mb-3">
-            <label for="deskripsi" class="form-label">Deskripsi</label>
-            <input type="text" class="form-control" id="deskripsi" value="<?= $deskripsi ?>" name="deskripsi">
-        </div>
-         <div class="mb-3">
-            <label for="harga" class="form-label">Harga</label>
-            <input type="number" class="form-control" id="harga" value="<?= $harga ?>" name="harga">
-        </div>
-        <div class="mb-3">
-         <label for="pemasok_id" class="form-label">Pemasok</label>
-            <select class="form-select js-example-basic-single" id="pemasok" name="pemasok_id">
-              <option value="0" selected>Pilih</option>
+    <div class="mb-3">
+         <label for="id_pemasok" class="form-label">Nama Pemasok</label>
+            <select class="form-select js-example-basic-single" id="id_pemasok" name="id_pemasok">
+            <option value="0" >Pilih</option>
             <?php
                 $no = 1;
                 $tampil = mysqli_query($koneksi, "SELECT * FROM data_pemasok");
                 while($data = mysqli_fetch_array($tampil)):
                 ?>
                   <option value="<?= $data[0]?>" ><?= $data[2]?></option>
-                  <?php
+                  <?php 
                  endwhile; 
                 ?>
             </select>
         </div>
-            <button style="background-color:#3a5a40; color:white;" type="submit" name="simpan" class="btn btn">Edit Data</button>
+         <div class="mb-3">
+            <label for="harga" class="form-label">Harga</label>
+            <input style="background-color:#edede9;" type="number" class="form-control" id="harga" name="harga" readonly>
+        </div>
+        <div class="mb-3">
+           <label for="jumlah" class="form-label">Stok</label>
+           <input style="background-color:#edede9;" type="number" class="form-control" id="stok" name="stok" readonly>
+       </div>
+         <div class="mb-3">
+            <label for="jumlah" class="form-label">Jumlah</label>
+            <input type="number" class="form-control" id="jumlah" name="jumlah">
+        </div>
+         <div class="mb-3">
+            <label for="tanggal" class="form-label">Tanggal</label>
+            <input type="date" class="form-control" id="tanggal" name="tanggal" value="<?php echo date('Y-m-d', strtotime('+8 hours')); ?>" readonly>
+        </div>
+         <div class="mb-4 col-2">
+            <label for="harga_total" class="form-label">Harga Total</label>
+            <input style="background-color:#edede9;" type="text" class="form-control" id="total" name="harga_total" readonly>
+        </div>
+            <button style="background-color:#3a5a40; color:white;" type="submit" name="simpan" class="btn btn">Tambah Data</button>
     </form>  
 </div>  
     </main>
@@ -215,10 +247,46 @@ if($_SESSION['status'] != 'login'){
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
+
 <script type="text/javascript">
-  $(document).ready(function() {
+
+$(document).ready(function() {
     $('.js-example-basic-single').select2();
 });
+
+        $('#obat_id').on('change', function(){
+  // ambil data dari elemen option yang dipilih
+  const price = $('#obat_id option:selected').data('harga');
+  const unit = $('#obat_id option:selected').data('unit');
+  const stok = $('#obat_id option:selected').data('stok');
+  const beli = $('#obat_id option:selected').data('beli');
+  const banyak = $('#jumlah').val();
+  
+  // kalkulasi total harga
+  const total = price;
+  const total1 = beli;
+  const total2 = unit;
+  const total3 = stok;
+  
+  // tampilkan data ke element
+  $('[name=stok]').val(`${total3}`);
+  $('[name=unit_id]').val(`${total2}`);
+  $('[name=harga_beli]').val(`${total1}`);
+
+  $('#harga').val(`${total}`);
+});
+
+  $('#jumlah').on('change',function(){
+    const price = $('#obat_id option:selected').data('harga');
+    const beli = $('#obat_id option:selected').data('beli');
+    const banyak = $('#jumlah').val();
+
+    const total4 = banyak * price;
+    const total5 = banyak * beli;
+
+    $('#total').val(`${total4}`);
+    $('#total_beli').val(`${total5}`);
+  })
 </script>
 
 

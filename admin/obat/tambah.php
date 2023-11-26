@@ -38,7 +38,10 @@ if(isset($_POST['simpan'])){
   <title>Dashboard</title>
   <link rel="stylesheet" href="../../assets/css/bootstrap.min.css">
   <link rel="stylesheet" href="../../assets/dashboard.css">
+  
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
   <style>
       .bd-placeholder-img {
         font-size: 1.125rem;
@@ -131,6 +134,12 @@ if(isset($_POST['simpan'])){
             </a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="../pembelian/index.php">
+              <span data-feather="shopping-bag" class="align-text-bottom"></span>
+              Pembelian
+            </a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="../pemasok/index.php">
               <span data-feather="users" class="align-text-bottom"></span>
               Pemasok
@@ -165,7 +174,7 @@ if(isset($_POST['simpan'])){
         </div>
         <div class="mb-3">
          <label for="pemasok_id" class="form-label">Pemasok</label>
-            <select class="form-select" id="pemasok" name="pemasok_id">
+            <select class="form-select js-example-basic-single" id="pemasok" name="pemasok_id">
             <option value="0" selected>Pilih</option>
             <?php
                 $no = 1;
@@ -184,6 +193,15 @@ if(isset($_POST['simpan'])){
     </main>
   </div>
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('.js-example-basic-single').select2();
+  });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
   <script src="../../assets/js/bootstrap.bundle.min.js"></script>

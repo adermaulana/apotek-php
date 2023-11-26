@@ -14,7 +14,7 @@ if($_SESSION['status'] != 'login'){
 
 if(isset($_GET['hal']) == "hapus"){
 
-  $hapus = mysqli_query($koneksi, "DELETE FROM data_pemasok WHERE id_pemasok = '$_GET[id]'");
+  $hapus = mysqli_query($koneksi, "DELETE FROM data_pembelian WHERE id_pembelian = '$_GET[id]'");
 
   if($hapus){
       echo "<script>
@@ -24,6 +24,7 @@ if(isset($_GET['hal']) == "hapus"){
   }
 }
 
+
 ?>
 
 <!DOCTYPE html>
@@ -32,9 +33,10 @@ if(isset($_GET['hal']) == "hapus"){
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard</title>
-  <link rel="stylesheet" href="../../assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/css/bootstrap.css">
   <link rel="stylesheet" href="../../assets/dashboard.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  
   <style>
       .bd-placeholder-img {
         font-size: 1.125rem;
@@ -127,13 +129,13 @@ if(isset($_GET['hal']) == "hapus"){
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="../pembelian/index.php">
+            <a class="nav-link <?php if ($_SERVER['REQUEST_URI'] === '/apotek-php/admin/pembelian/index.php') echo 'active'; ?>" href="../pembelian/index.php">
               <span data-feather="shopping-bag" class="align-text-bottom"></span>
               Pembelian
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link <?php if ($_SERVER['REQUEST_URI'] === '/apotek-php/admin/pemasok/index.php') echo 'active'; ?>" href="../pemasok/index.php">
+            <a class="nav-link" href="../pemasok/index.php">
               <span data-feather="users" class="align-text-bottom"></span>
               Pemasok
             </a>
@@ -142,38 +144,46 @@ if(isset($_GET['hal']) == "hapus"){
       </div>
     </nav>
 
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+   <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
     <div class="col-lg-12">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Data Pemasok</h1>
+        <h1 class="h2">Data Pembelian</h1>
       </div>
 
       <div class="table-responsive col-lg-10">
-        <a style="background-color : #3a5a40; color:white;" class="btn btn" href="tambah.php">Tambah Pemasok Baru</a>
+        <a style="background-color : #3a5a40; color:white;" class="btn btn" href="tambah.php">Tambah Pembelian</a>
         <table class="table table-striped table-sm mt-3">
           <thead>
             <tr>
               <th scope="col">No</th>
+              <th scope="col">Nama Obat</th>
               <th scope="col">Nama Pemasok</th>
-              <th scope="col">Alamat</th>
-              <th scope="col">Telepon</th>
+              <th scope="col">Harga</th>
+              <th scope="col">Jumlah</th>
+              <th scope="col">Tanggal Beli</th>
+              <th scope="col">Harga Total</th>
               <th scope="col">Action</th>
             </tr>
           </thead>
           <tbody>
           <?php
                 $no = 1;
-                $tampil = mysqli_query($koneksi, "SELECT * FROM data_pemasok");
+                $tampil = mysqli_query($koneksi, "SELECT p.*, o.nama_obat, pem.nama_pemasok
+                FROM data_pembelian p
+                JOIN data_pemasok pem ON p.id_pemasok = pem.id_pemasok
+                JOIN data_obat o ON p.id_obat = o.id_obat");
                 while($data = mysqli_fetch_array($tampil)):
                 ?>
             <tr>
-              <td><?= $no++ ?></td>
-              <td><?= $data['nama_pemasok'] ?></td>
-              <td><?= $data['alamat_pemasok'] ?></td>
-              <td><?= $data['telepon_pemasok'] ?></td>
+                    <td><?= $no++; ?></td>
+                    <td><?= $data['nama_obat']; ?></td>
+                    <td><?= $data['nama_pemasok']; ?></td>
+                    <td><?= $data['harga_pembelian']; ?></td>
+                    <td><?= $data['jumlah_pembelian']; ?></td> 
+                    <td><?= $data['tanggal_pembelian']; ?></td> 
+                    <td>Rp. <?= number_format($data['total_pembelian'],0,',','.'); ?></td> 
               <td>
-                <a href="edit.php?hal=edit&id=<?= $data['id_pemasok']?>" class="badge bg-warning"><span data-feather="edit"></span></a>
-                    <a href="index.php?hal=hapus&id=<?= $data['id_pemasok']?>" class="badge bg-danger border-0" onclick="return confirm('Apakah Anda Yakin Ingin Menghapus Data?')"><span data-feather="x-circle"></span></a>
+                    <a href="index.php?hal=hapus&id=<?= $data['id_pembelian']?>" class="badge bg-danger border-0" onclick="return confirm('Apakah Anda Yakin Ingin Menghapus Data?')"><span data-feather="x-circle"></span></a>
               </td>
             </tr>
             <?php
