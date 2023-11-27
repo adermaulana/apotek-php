@@ -12,6 +12,9 @@ if($_SESSION['status'] != 'login'){
     header("location:../");
 }
 
+$id=$_SESSION['id_admin'];
+$nama=$_SESSION['nama_admin'];
+
 if(isset($_POST['simpan'])){
 
     // Periksa apakah ada permintaan obat_id dan jumlah_obat dari AJAX
@@ -34,7 +37,7 @@ if(isset($_POST['simpan'])){
                 $updateQuery = "UPDATE data_obat SET stok_obat = $stokObat WHERE id_obat = $obatId";
                 if ($koneksi->query($updateQuery) === TRUE) {
                     echo "Stok obat berhasil diperbarui.";
-                    $simpan = mysqli_query($koneksi, "INSERT INTO data_pembelian (id_obat,harga_pembelian ,jumlah_pembelian, tanggal_pembelian, total_pembelian, id_pemasok) VALUES ('$_POST[obat_id]','$_POST[harga]','$_POST[jumlah]','$_POST[tanggal]','$_POST[harga_total]','$_POST[id_pemasok]')");
+                    $simpan = mysqli_query($koneksi, "INSERT INTO data_pembelian (id_obat,harga_pembelian ,jumlah_pembelian, tanggal_pembelian, total_pembelian, id_pemasok, id_admin) VALUES ('$_POST[obat_id]','$_POST[harga]','$_POST[jumlah]','$_POST[tanggal]','$_POST[harga_total]','$_POST[id_pemasok]','$_POST[id_admin]')");
                 } else {
                     echo "Gagal mengupdate stok obat.";
                 }
@@ -188,6 +191,11 @@ if(isset($_POST['simpan'])){
 
 <div class="col-lg-8">
     <form method="post" class="mb-5" enctype="multipart/form-data">
+      <input type="hidden" name="id_admin" value="<?= $id ?>">
+    <div class="mb-3">
+            <label for="admin" class="form-label">Admin</label>
+            <input style="background-color:#edede9;" type="text" class="form-control" value="<?= $nama ?>" readonly>
+        </div>
     <div class="mb-3">
          <label for="obat_id" class="form-label">Obat</label>
             <select class="form-select js-example-basic-single" id="obat_id" name="obat_id">

@@ -13,6 +13,7 @@ if($_SESSION['status'] != 'login'){
 
 }
 
+$id=$_SESSION['id_admin'];
 
 //get semua obat
 $obat = "SELECT COUNT(*) as id FROM data_obat";

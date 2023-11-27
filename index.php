@@ -20,6 +20,7 @@
         if($cek > 0) {
             $admin_data = mysqli_fetch_assoc($login);
             $_SESSION['id_admin'] = $admin_data['id_admin'];
+            $_SESSION['nama_admin'] = $admin_data['nama_admin'];
             $_SESSION['username_admin'] = $username;
             $_SESSION['status'] = "login";
             header('location:admin');

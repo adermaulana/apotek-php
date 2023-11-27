@@ -12,9 +12,11 @@ if($_SESSION['status'] != 'login'){
     header("location:../");
 }
 
+$id=$_SESSION['id_admin'];
+$nama=$_SESSION['nama_admin'];
 
 if(isset($_POST['simpan'])){
-    $simpan = mysqli_query($koneksi, "INSERT INTO data_pemasok (nama_pemasok, alamat_pemasok,telepon_pemasok) VALUES ('$_POST[nama_pemasok]','$_POST[alamat]','$_POST[telepon]')");
+    $simpan = mysqli_query($koneksi, "INSERT INTO data_pemasok (nama_pemasok, alamat_pemasok,telepon_pemasok, id_admin) VALUES ('$_POST[nama_pemasok]','$_POST[alamat]','$_POST[telepon]','$_POST[id_admin]')");
 
     if($simpan){
         echo "<script>
@@ -158,6 +160,11 @@ if(isset($_POST['simpan'])){
 
 <div class="col-lg-8">
     <form method="post" class="mb-5" enctype="multipart/form-data">
+      <input type="hidden" name="id_admin" value="<?= $id ?>">
+      <div class="mb-3">
+            <label for="admin" class="form-label">Admin</label>
+            <input style="background-color:#edede9;" type="text" class="form-control" value="<?= $nama ?>" readonly>
+        </div>
          <div class="mb-3">
         <label for="name" class="form-label">Nama Pemasok</label>
             <input type="text" class="form-control" id="nama_pemasok" name="nama_pemasok" required autofocus>
