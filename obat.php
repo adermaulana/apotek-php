@@ -1,15 +1,7 @@
 <?php include 'partials/header.php'; ?>
 
-<section class="jumbotron text-center mt-5">
-        <div class="container">
-            <h1>Selamat Datang di Apotek Kami</h1>
-            <p>Temukan obat-obatan berkualitas dan pelayanan terbaik di sini.</p>
-            <a href="obat.php" class="btn btn-success btn-lg">Lihat Obat-obatan</a>
-        </div>
-    </section>
-
     <section class="container mt-5">
-        <h2 class="text-center mb-4">Daftar Obat-obatan</h2>
+        <h2 class="mb-4">Daftar Obat-obatan</h2>
         <div class="row">
             <div class="col-md-4">
                 <div class="card mb-4">
