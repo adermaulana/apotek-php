@@ -19,7 +19,8 @@
                     <div class="card-body">
                         <h5 class="card-title">Mixagrip</h5>
                         <p class="card-text">Deskripsi</p>
-                        <a href="https://wa.me/6285397425303" target="_blank" class="btn btn-primary">Beli</a>
+                        <a href=""  class="btn btn-primary">Beli</a>
+                        <a href="detail_obat.php"  class="btn btn-success">Detail</a>
 
                     </div>
                 </div>

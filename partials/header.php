@@ -3,10 +3,15 @@
   session_start();
 
   // Cek apakah pengguna sudah login
-  if(isset($_SESSION['username'])) {
+  if(isset($_SESSION['username_admin'])) {
       $isLoggedIn = true;
-      $userName = $_SESSION['username']; // Ambil nama user dari session
-  } else {
+      $userName = $_SESSION['username_admin']; // Ambil nama user dari session
+  } else if(isset($_SESSION['username_pelanggan'])) {
+    $isLoggedIn = true;
+    $userName = $_SESSION['username_pelanggan']; // Ambil nama user dari session
+  } 
+  
+  else {
       $isLoggedIn = false;
   }
 
@@ -30,10 +35,10 @@
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link <?php if ($_SERVER['REQUEST_URI'] === '/apotek_sp/index.php') echo 'active'; ?>" aria-current="page" href="obat.php">Halaman Utama</a>
+                <a class="nav-link <?php if ($_SERVER['REQUEST_URI'] === '/apotek-php/index.php') echo 'active'; ?>" aria-current="page" href="index.php">Halaman Utama</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link <?php if ($_SERVER['REQUEST_URI'] === '/apotek_sp/obat.php') echo 'active'; ?>" href="obat.php">Produk</a>
+                <a class="nav-link <?php if ($_SERVER['REQUEST_URI'] === '/apotek-php/obat.php') echo 'active'; ?>" href="obat.php">Produk</a>
               </li>
             </ul>
 
@@ -41,17 +46,28 @@
                 <!-- Tampilkan elemen navigasi setelah login -->
                 <ul class="navbar-nav ms-auto me-5">
                 <li class="nav-item">
+                  <?php if(isset($_SESSION['username_admin'])): ?>
                     <a class="btn btn-light" href="admin/index.php">Dashboard</a>
-                </li>
-                <li class="nav-item">
-                    <a class="btn btn-light" href="admin/hapusSession.php">Logout</a>
+                    <?php else: ?>
+                      <div class="dropdown me-5">
+                        <a class="btn btn-light dropdown-toggle " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          Profil
+                        </a>
+
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="#">Action</a></li>
+                          <li><a class="dropdown-item" href="#">Another action</a></li>
+                          <li><a class="dropdown-item" href="admin/hapusSession.php">Logout</a></li>
+                        </ul>
+                      </div>
+                  <?php endif; ?>
                 </li>
                 </ul>
             <?php else: ?>
             <!-- Start Tombol Button -->
             <ul class="navbar-nav ms-auto me-5">
                 <li class="nav-item">
-                    <a class="btn btn-light" href="admin/login.php">Login</a>
+                    <a class="btn btn-light" href="login_pelanggan.php">Login</a>
                 </li>
             </ul>
             <!-- End Tombol Button -->
