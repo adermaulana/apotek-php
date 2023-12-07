@@ -1,5 +1,7 @@
 <?php
 
+  include './config/koneksi.php';
+
   session_start();
 
   // Cek apakah pengguna sudah login

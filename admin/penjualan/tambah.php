@@ -194,7 +194,7 @@ if(isset($_POST['simpan'])){
       </div>
 
 <div class="col-lg-8">
-    <form method="post" class="mb-5" enctype="multipart/form-data">
+    <form method="post" class="mb-5" enctype="multipart/form-data" onsubmit="return validateForm();">
     <div class="mb-3">
          <label for="obat_id" class="form-label">Obat</label>
             <select class="form-select js-example-basic-single" id="obat_id" name="obat_id">
@@ -212,7 +212,7 @@ if(isset($_POST['simpan'])){
         </div>
     <div class="mb-3">
          <label for="id_pelanggan" class="form-label">Nama Pelanggan</label>
-            <select class="form-select js-example-basic-single" id="id_pelanggan" name="id_pelanggan">
+            <select class="form-select js-example-basic-single" id="id_pelanggan" name="id_pelanggan" required>
             <option value="0" >Pilih</option>
             <?php
                 $no = 1;
@@ -255,6 +255,19 @@ if(isset($_POST['simpan'])){
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
 <script type="text/javascript">
+
+function validateForm() {
+        var idPelanggan = document.getElementById("id_pelanggan").value;
+
+        // Check if the selected value is not the default "Pilih" option
+        if (idPelanggan === "0") {
+            alert("Silakan pilih nama pelanggan!");
+            return false; // Prevent form submission
+        }
+
+        // Continue with form submission if validation passes
+        return true;
+    }
 
 $(document).ready(function() {
     $('.js-example-basic-single').select2();

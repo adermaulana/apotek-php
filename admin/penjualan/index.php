@@ -36,7 +36,7 @@ if(isset($_GET['hal']) == "hapus"){
   <link rel="stylesheet" href="../../assets/css/bootstrap.css">
   <link rel="stylesheet" href="../../assets/dashboard.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-  
+  <link href="../DataTables/datatables.min.css" rel="stylesheet">
   <style>
       .bd-placeholder-img {
         font-size: 1.125rem;
@@ -195,6 +195,19 @@ if(isset($_GET['hal']) == "hapus"){
     </main>
   </div>
 </div>
+
+<!-- Include jQuery -->
+<script src="../DataTables/jQuery-3.7.0/jquery-3.7.0.min.js"></script>
+
+<script>
+
+$(document).ready( function () {
+    $('#myTable').DataTable();
+} );
+  
+</script>
+
+<script src="../DataTables/datatables.min.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
   <script src="../../assets/js/bootstrap.bundle.min.js"></script>

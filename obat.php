@@ -1,40 +1,31 @@
 <?php include 'partials/header.php'; ?>
 
+
+<?php 
+
+
+
+?>
+
     <section class="container mt-5">
         <h2 class="mb-4">Daftar Obat-obatan</h2>
         <div class="row">
-            <div class="col-md-4">
+        <?php
+                $no = 1;
+                $tampil = mysqli_query($koneksi, "SELECT * FROM data_obat");
+                while($data = mysqli_fetch_array($tampil)):
+                ?>
+            <div class="col-md-3">
                 <div class="card mb-4">
                     <img src="img/antimo.jpg" class="card-img-top" alt="Obat 1">
                     <div class="card-body">
-                        <h5 class="card-title">Antimo</h5>
-                        <p class="card-text">Deskripsi</p>
-                        <a href="https://wa.me/6285397425303" target="_blank" class="btn btn-primary">Beli</a>
+                        <h3 class="card-title"><?= $data['nama_obat'] ?></h3>
+                        <h5><?= "Rp " . number_format($data['harga_obat'], 0, ',', '.') ?></h5>
+                        <a class="btn btn-success" href="detail_obat.php?hal=detail&id=<?= $data['id_obat'] ?>">Detail</a>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card mb-4">
-                    <img src="img/mixagrip.jpg" class="card-img-top" alt="Obat 2">
-                    <div class="card-body">
-                        <h5 class="card-title">Mixagrip</h5>
-                        <p class="card-text">Deskripsi</p>
-                        <a href=""  class="btn btn-primary">Beli</a>
-                        <a href="detail_obat.php"  class="btn btn-success">Detail</a>
-
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card mb-4">
-                    <img src="img/OBH.jpg" class="card-img-top" alt="Obat 3">
-                    <div class="card-body">
-                        <h5 class="card-title">OBH</h5>
-                        <p class="card-text">Deskripsi obat 3.</p>
-                        <a href="https://wa.me/6285397425303" target="_blank" class="btn btn-primary">Beli</a>
-                    </div>
-                </div>
-            </div>
+            <?php endwhile ; ?>
         </div>
     </section>
 
