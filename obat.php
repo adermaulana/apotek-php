@@ -1,11 +1,6 @@
 <?php include 'partials/header.php'; ?>
 
 
-<?php 
-
-
-
-?>
 
     <section class="container mt-5">
         <h2 class="mb-4">Daftar Obat-obatan</h2>

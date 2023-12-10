@@ -53,12 +53,11 @@
                     <?php else: ?>
                       <div class="dropdown me-5">
                         <a class="btn btn-light dropdown-toggle " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                          Profil
+                          Welcome, <?= $_SESSION['username_pelanggan'] ?>
                         </a>
 
                         <ul class="dropdown-menu">
-                          <li><a class="dropdown-item" href="#">Action</a></li>
-                          <li><a class="dropdown-item" href="#">Another action</a></li>
+                          <li><a class="dropdown-item" href="pembayaran.php">Pembayaran</a></li>
                           <li><a class="dropdown-item" href="admin/hapusSession.php">Logout</a></li>
                         </ul>
                       </div>
