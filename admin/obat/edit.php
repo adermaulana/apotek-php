@@ -25,6 +25,7 @@ if($_SESSION['status'] != 'login'){
             }
         }
 
+
         //Perintah Mengubah Data
         if(isset($_POST['simpan'])){
 
