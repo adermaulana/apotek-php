@@ -167,7 +167,7 @@ if(isset($_GET['hal']) == "hapus"){
                 $no = 1;
                 $tampil = mysqli_query($koneksi, "SELECT * FROM data_pemasok");
                 while($data = mysqli_fetch_array($tampil)):
-                ?>
+            ?>
             <tr>
               <td><?= $no++ ?></td>
               <td><?= $data['nama_pemasok'] ?></td>

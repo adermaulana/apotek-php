@@ -17,7 +17,7 @@
                 ?>
             <div class="col-md-3">
                 <div class="card mb-4">
-                    <img src="img/antimo.jpg" class="card-img-top" alt="Obat 1">
+                    <img style="height: 200px; object-fit: cover;" src="<?= $data['gambar_obat']; ?>" class="card-img-top" alt="Obat 1">
                     <div class="card-body">
                         <h3 class="card-title"><?= $data['nama_obat'] ?></h3>
                         <h5><?= "Rp " . number_format($data['harga_obat'], 0, ',', '.') ?></h5>

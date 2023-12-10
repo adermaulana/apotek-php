@@ -161,16 +161,14 @@ if(isset($_GET['hal']) == "hapus"){
               <th scope="col">Deskripsi</th>
               <th scope="col">Harga</th>
               <th scope="col">Stok</th>
-              <th scope="col">Pemasok</th>
+              <th scope="col">Gambar</th>
               <th scope="col">Action</th>
             </tr>
           </thead>
           <tbody>
           <?php
                 $no = 1;
-                $tampil = mysqli_query($koneksi, "SELECT o.*, p.nama_pemasok
-                FROM data_obat o
-                JOIN data_pemasok p ON o.id_pemasok = p.id_pemasok");
+                $tampil = mysqli_query($koneksi, "SELECT * FROM data_obat ORDER BY id_obat DESC");
                 while($data = mysqli_fetch_array($tampil)):
                 ?>
             <tr>
@@ -178,8 +176,10 @@ if(isset($_GET['hal']) == "hapus"){
                     <td><?= $data[1]; ?></td>
                     <td><?= $data[2]; ?></td>
                     <td><?= $data[3]; ?></td> 
-                    <td><?= $data[4]; ?></td> 
-                    <td><?= $data['nama_pemasok']; ?></td> 
+                    <td><?= $data[4]; ?></td>
+                    <td>
+                      <img src="../../<?= $data['gambar_obat']; ?>" width="100" alt="">
+                    </td> 
               <td>
                 <div class="d-flex">
                   <a  href="edit.php?hal=edit&id=<?= $data['id_obat']?>" class="badge bg-warning me-1"><span data-feather="edit"></span></a>
