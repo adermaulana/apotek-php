@@ -95,7 +95,7 @@ if(isset($_POST['simpan'])){
                
                         <input type="hidden" name="id_pelanggan" value="<?= isset($_SESSION['id_pelanggan']) ? $_SESSION['id_pelanggan'] : '' ?>">
                             <div class="mb-3 col-3">
-                                <input type="number" class="form-control" id="jumlah" name="jumlah" required autofocus>
+                                <input type="number" class="form-control" id="jumlah" name="jumlah" oninput="validasiInput(this)" required autofocus>
                             </div>
                             <div class="mb-3 col-3">
                                 <label for="">Total</label>
@@ -112,6 +112,16 @@ if(isset($_POST['simpan'])){
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
 <script type="text/javascript">
+
+
+function validasiInput(input) {
+            // Menghapus karakter "e" dari nilai input
+            input.value = input.value.replace(/e/g, '');
+
+            // Pembersihan karakter selain angka
+            input.value = input.value.replace(/[^0-9]/g, '');
+        }
+
     $('#jumlah').on('change', function () {
         const harga = $('#harga').val();
         const banyak = $('#jumlah').val();
