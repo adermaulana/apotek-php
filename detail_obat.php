@@ -3,6 +3,7 @@
 
 <?php 
 
+
 if(isset($_GET['hal'])){
     if($_GET['hal'] == "detail"){
         $tampil = mysqli_query($koneksi, "SELECT * FROM data_obat WHERE id_obat = '$_GET[id]'");
@@ -88,7 +89,7 @@ if(isset($_POST['simpan'])){
                         Stok <?= $stok; ?>
                         </p>
                         <h3 class="mb-3"><?= $harga; ?></h3>
-                        <form action="" method="post">
+                        <form action="" method="post" onsubmit="return checkLoginStatus()">
                          <input type="hidden" name="id_obat" value="<?= $id ?>">   
                          <input type="hidden" id="harga" name="harga" value="<?= $harga ?>">   
                          <input type="hidden" name="tanggal" value="<?= date('Y-m-d', strtotime('+8 hours')); ?>">   
@@ -112,6 +113,18 @@ if(isset($_POST['simpan'])){
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
 <script type="text/javascript">
+
+function checkLoginStatus() {
+        // Check if the user is logged in
+        var isLoggedIn = <?php echo isset($_SESSION['id_pelanggan']) ? 'true' : 'false'; ?>;
+        
+        if (!isLoggedIn) {
+            alert('Anda harus login untuk melakukan pembelian.');
+            return false; // Prevent form submission
+        }
+
+        return true; // Allow form submission
+    }
 
 
 function validasiInput(input) {
