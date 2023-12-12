@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 26 Nov 2023 pada 13.39
+-- Waktu pembuatan: 12 Des 2023 pada 17.06
 -- Versi server: 10.4.27-MariaDB
 -- Versi PHP: 8.1.12
 
@@ -39,7 +39,8 @@ CREATE TABLE `data_admin` (
 --
 
 INSERT INTO `data_admin` (`id_admin`, `nama_admin`, `username_admin`, `password_admin`) VALUES
-(1, 'wandi', 'wandi', '827ccb0eea8a706c4c34a16891f84e7b');
+(1, 'wandi', 'wandi', '827ccb0eea8a706c4c34a16891f84e7b'),
+(2, 'udin', 'udin', '827ccb0eea8a706c4c34a16891f84e7b');
 
 -- --------------------------------------------------------
 
@@ -53,15 +54,19 @@ CREATE TABLE `data_obat` (
   `deskripsi_obat` varchar(255) NOT NULL,
   `harga_obat` int(20) NOT NULL,
   `stok_obat` int(20) NOT NULL,
-  `id_pemasok` int(11) NOT NULL
+  `gambar_obat` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `data_obat`
 --
 
-INSERT INTO `data_obat` (`id_obat`, `nama_obat`, `deskripsi_obat`, `harga_obat`, `stok_obat`, `id_pemasok`) VALUES
-(2, 'Baginda', 'sakit', 2000, 211, 9);
+INSERT INTO `data_obat` (`id_obat`, `nama_obat`, `deskripsi_obat`, `harga_obat`, `stok_obat`, `gambar_obat`) VALUES
+(19, 'Panadol', '    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ea doloremque quisquam reiciendis consectetur qui odit illo tenetur unde pariatur fugiat quibusdam dolor, alias omnis iste esse placeat earum at assumenda! Ipsum asperiores quod, sed eligendi u', 12000, 0, 'uploads/panadol.jpg'),
+(20, 'antimo', '        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae veritatis labore quas asperiores rerum excepturi quibusdam tenetur ipsa corrupti vero, consequuntur accusamus omnis exercitationem soluta quaerat ducimus commodi eius aliquam quos. Susc', 2000, 0, 'uploads/antimo.jpg'),
+(21, 'Mixagrip', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae veritatis labore quas asperiores rerum excepturi quibusdam tenetur ipsa corrupti vero, consequuntur accusamus omnis exercitationem soluta quaerat ducimus commodi eius aliquam quos. Suscipit, ea', 3000, 0, 'uploads/mixagrip.jpg'),
+(22, 'Paratusin', 'Paratusin untuk apa? Paratusin adalah obat untuk meringankan gejala flu seperti demam, sakit kepala, hidung tersumbat dan bersin-bersin yang disertain batuk. Obat ini masuk dalam golongan obat bebas terbatas.', 3000, 0, 'uploads/paratusin.jpeg'),
+(23, 'Decolgen', 'Decolgen cold & flu berbentuk tablet yang diproduksi oleh PT. Medifarma Laboratories dan telah terdaftar pada BPOM. Setiap tablet Decolgen mengandung 400mg paracetamol yang berfungsi sebagai pereda demam dan meringankan sakit kepala yang di sebabkan oleh ', 5600, 0, 'uploads/decolgen.jpeg');
 
 -- --------------------------------------------------------
 
@@ -83,7 +88,8 @@ CREATE TABLE `data_pelanggan` (
 --
 
 INSERT INTO `data_pelanggan` (`id_pelanggan`, `username_pelanggan`, `password_pelanggan`, `nama_pelanggan`, `alamat_pelanggan`, `email_pelanggan`) VALUES
-(1, 'udin', '827ccb0eea8a706c4c34a16891f84e7b', 'udin', 'udin', 'udin@gmail.com');
+(1, 'udin', '827ccb0eea8a706c4c34a16891f84e7b', 'udin', 'udin', 'udin@gmail.com'),
+(2, 'martin', '925d7518fc597af0e43f5606f9a51512', 'martin', 'martin', 'martin@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -104,9 +110,7 @@ CREATE TABLE `data_pemasok` (
 --
 
 INSERT INTO `data_pemasok` (`id_pemasok`, `id_admin`, `nama_pemasok`, `alamat_pemasok`, `telepon_pemasok`) VALUES
-(4, 1, 'Kimia Farma', 'Jalanan', '0853'),
-(9, 1, 'tes', 'tes', '344'),
-(16, 1, 'Kimia Farma', 'kue', '1212');
+(20, 1, 'Kimia Farma', 'Jalanan', '0854');
 
 -- --------------------------------------------------------
 
@@ -143,8 +147,7 @@ CREATE TABLE `data_pembelian` (
 --
 
 INSERT INTO `data_pembelian` (`id_pembelian`, `id_pemasok`, `id_obat`, `id_admin`, `harga_pembelian`, `jumlah_pembelian`, `tanggal_pembelian`, `total_pembelian`) VALUES
-(1, 4, 2, 1, 2000, 100, '2023-11-26', 200000),
-(2, 16, 2, 1, 2000, 10, '2023-11-26', 20000);
+(8, 20, 19, 1, 12000, 100, '2023-12-10', 1200000);
 
 -- --------------------------------------------------------
 
@@ -168,9 +171,10 @@ CREATE TABLE `data_penjualan` (
 --
 
 INSERT INTO `data_penjualan` (`id_penjualan`, `id_obat`, `id_pelanggan`, `jumlah_penjualan`, `harga_penjualan`, `tanggal_penjualan`, `harga_total_penjualan`, `status_penjualan`) VALUES
-(3, 2, 1, 2, 2000, '2023-11-25', 4000, ''),
-(4, 2, 1, 4, 2000, '2023-11-25', 8000, ''),
-(5, 2, 1, 1, 2000, '2023-11-26', 2000, '');
+(11, 19, 1, 1, 12000, '2023-12-10', 12000, ''),
+(13, 19, 1, 1, 12000, '2023-12-10', 12000, ''),
+(14, 19, 2, 2, 12000, '2023-12-10', 24000, ''),
+(15, 19, 2, 94, 12000, '2023-12-10', 1128000, '');
 
 --
 -- Indexes for dumped tables
@@ -186,8 +190,7 @@ ALTER TABLE `data_admin`
 -- Indeks untuk tabel `data_obat`
 --
 ALTER TABLE `data_obat`
-  ADD PRIMARY KEY (`id_obat`),
-  ADD KEY `id_pemasok` (`id_pemasok`);
+  ADD PRIMARY KEY (`id_obat`);
 
 --
 -- Indeks untuk tabel `data_pelanggan`
@@ -234,25 +237,25 @@ ALTER TABLE `data_penjualan`
 -- AUTO_INCREMENT untuk tabel `data_admin`
 --
 ALTER TABLE `data_admin`
-  MODIFY `id_admin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_admin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `data_obat`
 --
 ALTER TABLE `data_obat`
-  MODIFY `id_obat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_obat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT untuk tabel `data_pelanggan`
 --
 ALTER TABLE `data_pelanggan`
-  MODIFY `id_pelanggan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_pelanggan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `data_pemasok`
 --
 ALTER TABLE `data_pemasok`
-  MODIFY `id_pemasok` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id_pemasok` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT untuk tabel `data_pembayaran`
@@ -264,23 +267,17 @@ ALTER TABLE `data_pembayaran`
 -- AUTO_INCREMENT untuk tabel `data_pembelian`
 --
 ALTER TABLE `data_pembelian`
-  MODIFY `id_pembelian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_pembelian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT untuk tabel `data_penjualan`
 --
 ALTER TABLE `data_penjualan`
-  MODIFY `id_penjualan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_penjualan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
 --
-
---
--- Ketidakleluasaan untuk tabel `data_obat`
---
-ALTER TABLE `data_obat`
-  ADD CONSTRAINT `data_obat_ibfk_1` FOREIGN KEY (`id_pemasok`) REFERENCES `data_pemasok` (`id_pemasok`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ketidakleluasaan untuk tabel `data_pemasok`

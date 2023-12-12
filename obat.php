@@ -4,7 +4,7 @@
     <h2 class="mb-4">Daftar Obat-obatan</h2>
     <div class="row">
         <?php
-        $limit = 4; // Number of items per page
+        $limit = 10; // Number of items per page
 
         // Get the current page from the URL, default to page 1
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
