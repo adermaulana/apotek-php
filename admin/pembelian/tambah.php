@@ -213,7 +213,7 @@ if(isset($_POST['simpan'])){
         </div>
     <div class="mb-3">
          <label for="id_pemasok" class="form-label">Nama Pemasok</label>
-            <select class="form-select js-example-basic-single" id="id_pemasok" name="id_pemasok">
+            <select class="form-select js-example-basic-single" id="id_pemasok" name="id_pemasok" required>
             <option value="0" >Pilih</option>
             <?php
                 $no = 1;
@@ -257,6 +257,30 @@ if(isset($_POST['simpan'])){
 
 
 <script type="text/javascript">
+
+$(document).ready(function() {
+    $('.js-example-basic-single').select2();
+
+    $('#obat_id').on('change', function() {
+        // ... (existing code)
+
+        // Reset the supplier selection when changing the medicine
+        $('#id_pemasok').val('0');
+    });
+
+    $('#jumlah').on('change', function() {
+        // ... (existing code)
+    });
+
+    $('form').submit(function(event) {
+        // Check if the supplier is selected
+        if ($('#id_pemasok').val() === '0') {
+            alert('Silahkan Memilih Supplier');
+            event.preventDefault(); // Prevent form submission
+        }
+    });
+});
+
 
 $(document).ready(function() {
     $('.js-example-basic-single').select2();
