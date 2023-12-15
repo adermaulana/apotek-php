@@ -71,6 +71,7 @@
                             <input type="password" class="form-control" id="password" name="password" required>
                         </div>
                         <button type="submit" name="login" class="btn btn-primary btn-block">Login</button>
+                        <span>Belum punya akun?<a href="registrasi.php" class="text-decoration-none" > Registrasi</a></span>
                     </form>
                 </div>
             </div>
