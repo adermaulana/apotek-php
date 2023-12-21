@@ -72,6 +72,10 @@
                             <label for="password" class="form-label">Password</label>
                             <input type="password" class="form-control" id="password" name="password" required>
                         </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="showPassword" onclick="togglePassword()">
+                            <label class="form-check-label" for="showPassword">Show Password</label>
+                        </div>
                         <button type="submit" name="login" class="btn btn-primary btn-block">Login</button>
                         <span>Belum punya akun?<a href="registrasi.php" class="text-decoration-none" > Registrasi</a></span>
                     </form>
@@ -79,6 +83,17 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function togglePassword() {
+            var passwordField = document.getElementById("password");
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+            } else {
+                passwordField.type = "password";
+            }
+        }
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 </body>
