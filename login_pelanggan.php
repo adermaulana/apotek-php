@@ -21,6 +21,8 @@
             $admin_data = mysqli_fetch_assoc($login);
             $_SESSION['id_pelanggan'] = $admin_data['id_pelanggan'];
             $_SESSION['nama_pelanggan'] = $admin_data['nama_pelanggan'];
+            $_SESSION['alamat_pelanggan'] = $admin_data['alamat_pelanggan'];
+            $_SESSION['email_pelanggan'] = $admin_data['email_pelanggan'];
             $_SESSION['username_pelanggan'] = $username;
             $_SESSION['status'] = "login";
             header('location:index.php');

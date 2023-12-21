@@ -1,21 +1,29 @@
 <?php
-
     include 'config/koneksi.php';
-
     session_start();
 
-    if(isset($_SESSION['status']) == 'login'){
-
+    if (isset($_SESSION['status']) == 'login') {
         header("location:index.php");
     }
 
-    if(isset($_POST['registrasi'])){
-
+    if (isset($_POST['registrasi'])) {
         $password = md5($_POST['password_pelanggan']);
+        $username = $_POST['username_pelanggan'];
 
-        $simpan = mysqli_query($koneksi, "INSERT INTO data_pelanggan (nama_pelanggan, alamat_pelanggan,email_pelanggan, username_pelanggan, password_pelanggan) VALUES ('$_POST[nama_pelanggan]','$_POST[alamat_pelanggan]','$_POST[email_pelanggan]','$_POST[username_pelanggan]','$password')");
+        // Check if the username already exists
+        $checkUsername = mysqli_query($koneksi, "SELECT * FROM data_pelanggan WHERE username_pelanggan='$username'");
+        if (mysqli_num_rows($checkUsername) > 0) {
+            echo "<script>
+                    alert('Username sudah digunakan, pilih username lain.');
+                    document.location='registrasi.php';
+                </script>";
+            exit; // Stop further execution
+        }
 
-        if($simpan){
+        // If the username is not taken, proceed with the registration
+        $simpan = mysqli_query($koneksi, "INSERT INTO data_pelanggan (nama_pelanggan, alamat_pelanggan, email_pelanggan, username_pelanggan, password_pelanggan) VALUES ('$_POST[nama_pelanggan]','$_POST[alamat_pelanggan]','$_POST[email_pelanggan]','$_POST[username_pelanggan]','$password')");
+
+        if ($simpan) {
             echo "<script>
                     alert('Berhasil Registrasi!');
                     document.location='login_pelanggan.php';
@@ -23,12 +31,12 @@
         } else {
             echo "<script>
                     alert('Gagal!');
-                    document.location='index.php';
+                    document.location='registrasi.php';
                 </script>";
         }
     }
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

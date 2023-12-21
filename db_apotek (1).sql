@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 12 Des 2023 pada 17.06
+-- Waktu pembuatan: 20 Des 2023 pada 22.49
 -- Versi server: 10.4.27-MariaDB
 -- Versi PHP: 8.1.12
 
@@ -62,7 +62,7 @@ CREATE TABLE `data_obat` (
 --
 
 INSERT INTO `data_obat` (`id_obat`, `nama_obat`, `deskripsi_obat`, `harga_obat`, `stok_obat`, `gambar_obat`) VALUES
-(19, 'Panadol', '    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ea doloremque quisquam reiciendis consectetur qui odit illo tenetur unde pariatur fugiat quibusdam dolor, alias omnis iste esse placeat earum at assumenda! Ipsum asperiores quod, sed eligendi u', 12000, 0, 'uploads/panadol.jpg'),
+(19, 'Panadol', '    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ea doloremque quisquam reiciendis consectetur qui odit illo tenetur unde pariatur fugiat quibusdam dolor, alias omnis iste esse placeat earum at assumenda! Ipsum asperiores quod, sed eligendi u', 12000, 124, 'uploads/panadol.jpg'),
 (20, 'antimo', '        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae veritatis labore quas asperiores rerum excepturi quibusdam tenetur ipsa corrupti vero, consequuntur accusamus omnis exercitationem soluta quaerat ducimus commodi eius aliquam quos. Susc', 2000, 0, 'uploads/antimo.jpg'),
 (21, 'Mixagrip', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae veritatis labore quas asperiores rerum excepturi quibusdam tenetur ipsa corrupti vero, consequuntur accusamus omnis exercitationem soluta quaerat ducimus commodi eius aliquam quos. Suscipit, ea', 3000, 0, 'uploads/mixagrip.jpg'),
 (22, 'Paratusin', 'Paratusin untuk apa? Paratusin adalah obat untuk meringankan gejala flu seperti demam, sakit kepala, hidung tersumbat dan bersin-bersin yang disertain batuk. Obat ini masuk dalam golongan obat bebas terbatas.', 3000, 0, 'uploads/paratusin.jpeg'),
@@ -89,7 +89,10 @@ CREATE TABLE `data_pelanggan` (
 
 INSERT INTO `data_pelanggan` (`id_pelanggan`, `username_pelanggan`, `password_pelanggan`, `nama_pelanggan`, `alamat_pelanggan`, `email_pelanggan`) VALUES
 (1, 'udin', '827ccb0eea8a706c4c34a16891f84e7b', 'udin', 'udin', 'udin@gmail.com'),
-(2, 'martin', '925d7518fc597af0e43f5606f9a51512', 'martin', 'martin', 'martin@gmail.com');
+(2, 'martin', '925d7518fc597af0e43f5606f9a51512', 'martin', 'martin', 'martin@gmail.com'),
+(3, 'mak', '827ccb0eea8a706c4c34a16891f84e7b', 'makrunyil', 'makru', 'makru@gmail.com'),
+(4, 'ade', '827ccb0eea8a706c4c34a16891f84e7b', 'ndan', 'ndan', 'ndan@gmail.com'),
+(5, 'ade', '827ccb0eea8a706c4c34a16891f84e7b', 'ndan', 'ndan', 'ndan@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -121,9 +124,18 @@ INSERT INTO `data_pemasok` (`id_pemasok`, `id_admin`, `nama_pemasok`, `alamat_pe
 CREATE TABLE `data_pembayaran` (
   `id_pembayaran` int(11) NOT NULL,
   `id_penjualan` int(11) NOT NULL,
-  `total_pembayaran` int(50) NOT NULL,
+  `total_pembayaran` varchar(255) NOT NULL,
   `foto_pembayaran` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data untuk tabel `data_pembayaran`
+--
+
+INSERT INTO `data_pembayaran` (`id_pembayaran`, `id_penjualan`, `total_pembayaran`, `foto_pembayaran`) VALUES
+(13, 14, 'Rp. 24.000', 'uploads/Screenshot 2023-10-28 192140.png'),
+(14, 14, 'Rp. 24.000', 'uploads/Screenshot 2023-10-26 201434.png'),
+(15, 15, 'Rp. 1.128.000', 'uploads/Screenshot 2023-10-23 001525.png');
 
 -- --------------------------------------------------------
 
@@ -147,7 +159,9 @@ CREATE TABLE `data_pembelian` (
 --
 
 INSERT INTO `data_pembelian` (`id_pembelian`, `id_pemasok`, `id_obat`, `id_admin`, `harga_pembelian`, `jumlah_pembelian`, `tanggal_pembelian`, `total_pembelian`) VALUES
-(8, 20, 19, 1, 12000, 100, '2023-12-10', 1200000);
+(8, 20, 19, 1, 12000, 100, '2023-12-10', 1200000),
+(9, 20, 19, 1, 12000, 100, '2023-12-13', 1200000),
+(12, 20, 19, 1, 12000, 12, '2023-12-13', 144000);
 
 -- --------------------------------------------------------
 
@@ -171,10 +185,8 @@ CREATE TABLE `data_penjualan` (
 --
 
 INSERT INTO `data_penjualan` (`id_penjualan`, `id_obat`, `id_pelanggan`, `jumlah_penjualan`, `harga_penjualan`, `tanggal_penjualan`, `harga_total_penjualan`, `status_penjualan`) VALUES
-(11, 19, 1, 1, 12000, '2023-12-10', 12000, ''),
-(13, 19, 1, 1, 12000, '2023-12-10', 12000, ''),
-(14, 19, 2, 2, 12000, '2023-12-10', 24000, ''),
-(15, 19, 2, 94, 12000, '2023-12-10', 1128000, '');
+(14, 19, 2, 2, 12000, '2023-12-10', 24000, 'Sudah Bayar'),
+(15, 19, 2, 94, 12000, '2023-12-10', 1128000, 'Sudah Bayar');
 
 --
 -- Indexes for dumped tables
@@ -249,7 +261,7 @@ ALTER TABLE `data_obat`
 -- AUTO_INCREMENT untuk tabel `data_pelanggan`
 --
 ALTER TABLE `data_pelanggan`
-  MODIFY `id_pelanggan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_pelanggan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT untuk tabel `data_pemasok`
@@ -261,13 +273,13 @@ ALTER TABLE `data_pemasok`
 -- AUTO_INCREMENT untuk tabel `data_pembayaran`
 --
 ALTER TABLE `data_pembayaran`
-  MODIFY `id_pembayaran` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_pembayaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT untuk tabel `data_pembelian`
 --
 ALTER TABLE `data_pembelian`
-  MODIFY `id_pembelian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_pembelian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT untuk tabel `data_penjualan`
