@@ -20,54 +20,68 @@ if(isset($_GET['hal'])){
 }
 
 if(isset($_POST['simpan'])){
+    $obatId = $_POST["id_obat"];
+    $jumlahPembelian = $_POST["jumlah"]; // Jumlah obat yang dibeli
 
-    // Periksa apakah ada permintaan obat_id dan jumlah_obat dari AJAX
-    if (isset($_POST["id_obat"]) && isset($_POST["jumlah"])) {
-        $obatId = $_POST["id_obat"];
-        $jumlahPembelian = $_POST["jumlah"]; // Jumlah obat yang dibeli
+    // Query database untuk mendapatkan stok dan harga obat berdasarkan obat_id
+    $query = "SELECT stok_obat, harga_obat FROM data_obat WHERE id_obat = $obatId";
+    $result = $koneksi->query($query);
 
-        // Query database untuk mendapatkan stok obat berdasarkan obat_id
-        $query = "SELECT stok_obat FROM data_obat WHERE id_obat = $obatId";
-        $result = $koneksi->query($query);
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $stokObat = $row["stok_obat"];
+        $hargaObat = $row["harga_obat"];
 
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            $stokObat = $row["stok_obat"];
+        // Periksa apakah jumlah obat yang dibeli tidak melebihi stok yang tersedia
+        if ($jumlahPembelian <= $stokObat) {
+            // Kurangkan stok obat yang tersedia
+            $stokObat -= $jumlahPembelian;
 
-            // Periksa apakah jumlah obat yang dibeli tidak melebihi stok yang tersedia
-            if ($jumlahPembelian <= $stokObat) {
-                // Kurangkan stok obat yang tersedia
-                $stokObat -= $jumlahPembelian;
+            // Update stok obat dalam database
+            $updateQuery = "UPDATE data_obat SET stok_obat = $stokObat WHERE id_obat = $obatId";
+            if ($koneksi->query($updateQuery) === FALSE) {
+                echo "Gagal mengupdate stok obat.";
+                exit;
+            }
 
-                // Update stok obat dalam database
-                $updateQuery = "UPDATE data_obat SET stok_obat = $stokObat WHERE id_obat = $obatId";
-                if ($koneksi->query($updateQuery) === TRUE) {
-                    echo "Stok obat berhasil diperbarui.";
-                    $simpan = mysqli_query($koneksi, "INSERT INTO data_penjualan (id_obat,harga_penjualan ,jumlah_penjualan, tanggal_penjualan, harga_total_penjualan, id_pelanggan) VALUES ('$_POST[id_obat]','$_POST[harga]','$_POST[jumlah]','$_POST[tanggal]','$_POST[total]','$_POST[id_pelanggan]')");
+            // Check if the product is already in the cart
+            $existingCartItemQuery = "SELECT * FROM data_keranjang WHERE id_obat = $obatId AND id_pelanggan = $_POST[id_pelanggan]";
+            $existingCartItemResult = $koneksi->query($existingCartItemQuery);
+
+            if ($existingCartItemResult->num_rows > 0) {
+                // Update quantity if the product is already in the cart
+                $existingCartItem = $existingCartItemResult->fetch_assoc();
+                $newQuantity = $existingCartItem['jumlah_keranjang'] + $jumlahPembelian;
+
+                $updateCartItemQuery = "UPDATE data_keranjang SET jumlah_keranjang = $newQuantity, harga_keranjang = $hargaObat, total_keranjang = $newQuantity * $hargaObat WHERE id_keranjang = {$existingCartItem['id_keranjang']}";
+                if ($koneksi->query($updateCartItemQuery) === TRUE) {
+                    echo "<script>
+                            alert('Berhasil Menambahkan Produk ke Keranjang!');
+                            document.location='keranjang.php';
+                          </script>";
                 } else {
-                    echo "Gagal mengupdate stok obat.";
+                    echo "Gagal mengupdate quantity dalam keranjang.";
                 }
             } else {
-                echo "<script>
-                        alert('Jumlah obat yang dibeli melebihi stok yang tersedia.');
-                        window.location.href='detail_obat.php?hal=detail&id=" . $data['id_obat'] . "';
-                    </script>";
+                // Insert new item into the cart if the product is not in the cart
+                $simpan = mysqli_query($koneksi, "INSERT INTO data_keranjang (id_obat, id_pelanggan, harga_keranjang, jumlah_keranjang, total_keranjang) VALUES ('$obatId','$_POST[id_pelanggan]','$hargaObat','$jumlahPembelian','$hargaObat' * '$jumlahPembelian')");
+                if ($simpan) {
+                    echo "<script>
+                            alert('Berhasil Menambahkan Produk ke Keranjang!');
+                            document.location='keranjang.php';
+                          </script>";
+                } else {
+                    echo "Gagal menambahkan produk ke keranjang.";
+                }
             }
         } else {
-            echo "Obat tidak ditemukan.";
+            echo "<script>
+                    alert('Jumlah obat yang dibeli melebihi stok yang tersedia.');
+                    window.location.href='detail_obat.php?hal=detail&id=" . $data['id_obat'] . "';
+                  </script>";
         }
-    }
-
-    if($simpan){
-        echo "<script>
-                alert('Berhasil Membeli Produk!');
-                document.location='pembayaran.php';
-            </script>";
     } else {
-        echo "<script>
-                alert('Simpan data Gagal!');
-                document.location='index.php';
-            </script>";
+        echo "Obat tidak ditemukan.";
     }
 }
 
@@ -91,18 +105,13 @@ if(isset($_POST['simpan'])){
                         <h3 class="mb-3"><?= $harga; ?></h3>
                         <form action="" method="post" onsubmit="return checkLoginStatus()">
                          <input type="hidden" name="id_obat" value="<?= $id ?>">   
-                         <input type="hidden" id="harga" name="harga" value="<?= $harga ?>">   
-                         <input type="hidden" name="tanggal" value="<?= date('Y-m-d', strtotime('+8 hours')); ?>">   
-               
+                         <input type="hidden" id="harga" name="harga" value="<?= $harga ?>">
+                         <input type="hidden" id="total" name="total">   
                         <input type="hidden" name="id_pelanggan" value="<?= isset($_SESSION['id_pelanggan']) ? $_SESSION['id_pelanggan'] : '' ?>">
                             <div class="mb-3 col-3">
                                 <input type="number" class="form-control" id="jumlah" name="jumlah" oninput="validasiInput(this)" required autofocus>
                             </div>
-                            <div class="mb-3 col-3">
-                                <label for="">Total</label>
-                                <input type="number" class="form-control" id="total" name="total" readonly>
-                            </div>
-                            <button type="submit" class="btn btn-primary" name="simpan">Beli</button>
+                            <button type="submit" class="btn btn-success" name="simpan">Add To Cart</button>
                         </form>
                     </div>
                 </div>
@@ -133,9 +142,16 @@ function validasiInput(input) {
 
             // Pembersihan karakter selain angka
             input.value = input.value.replace(/[^0-9]/g, '');
+
+            if (input.value === '' || input.value === '0') {
+                input.setCustomValidity('Masukkan angka yang valid dan bukan 0.');
+            } else {
+                input.setCustomValidity('');
+            }
+
         }
 
-    $('#jumlah').on('change', function () {
+        $('#jumlah').on('change', function () {
         const harga = $('#harga').val();
         const banyak = $('#jumlah').val();
 
@@ -144,6 +160,7 @@ function validasiInput(input) {
         $('#total').val(`${total4}`);
 
     })
+
 </script>
 
 <?php include 'partials/footer.php'; ?>

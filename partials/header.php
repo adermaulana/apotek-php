@@ -25,6 +25,7 @@
     <title>Apotek Website</title>
     <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/14cd2e1081.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <header>
@@ -52,6 +53,7 @@
                     <a class="btn btn-light" href="admin/index.php">Dashboard</a>
                     <?php else: ?>
                       <div class="dropdown me-5">
+                        <a href="keranjang.php" class="btn btn-light"><i class="fa-solid fa-cart-shopping"></i></a>
                         <a class="btn btn-light dropdown-toggle " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                           Welcome, <?= $_SESSION['username_pelanggan'] ?>
                         </a>
@@ -68,6 +70,7 @@
             <!-- Start Tombol Button -->
             <ul class="navbar-nav ms-auto me-5">
                 <li class="nav-item">
+                  <a href="keranjang.php" class="btn btn-light"><i class="fa-solid fa-cart-shopping"></i></a>
                     <a class="btn btn-light" href="login_pelanggan.php">Login</a>
                 </li>
             </ul>

@@ -50,9 +50,9 @@
 
                                             <div class="col text-end action-right">
                                                 <?php if($data['status_penjualan'] =='Proses') { ?>
-                                                <span class="badge bg-info"><?= $data['status_penjualan'] ?> <i class="fas fa-ban"></i></span>
+                                                <span class="badge bg-info"><?= $data['status_penjualan'] ?></span>
                                                 <?php } elseif($data['status_penjualan'] =='Sudah Bayar') { ?>
-                                                <span class="badge bg-success"><?= $data['status_penjualan'] ?> <i class="fas fa-ban"></i></span>
+                                                <span class="badge bg-success"><?= $data['status_penjualan'] ?></span>
                                                 <?php } else { ?>
                                                     <a href="konfirmasi_pembayaran.php?hal=konfirmasi&id=<?= $data['id_penjualan'] ?>" class="btn-link disabled">Konfirmasi Pembayaran</a>
                                                 <?php } ?>
