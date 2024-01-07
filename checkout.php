@@ -45,7 +45,7 @@ if(isset($_POST['simpan'])){
         if($hapus_cart) {
             echo "<script>
                     alert('Simpan data sukses!');
-                    document.location='index.php';
+                    document.location='pembayaran.php';
                 </script>";
         } else {
             echo "<script>

@@ -1,5 +1,15 @@
 <?php include 'partials/header.php';
 
+// Cek apakah pengguna sudah login
+if (!isset($_SESSION['username_pelanggan'])) {
+    // Jika tidak, redirect ke halaman login dengan pesan alert
+    echo "<script>
+    alert('Anda harus login terlebih dahulu!');
+    document.location='login_pelanggan.php';
+    </script>";
+    exit;
+}
+
 if(isset($_GET['hal'])){
     if($_GET['hal'] == "konfirmasi"){
         $tampil = mysqli_query($koneksi, "SELECT * FROM data_order WHERE id_order = '$_GET[id]'");
@@ -37,7 +47,7 @@ if(isset($_POST['simpan'])){
       if ($simpan) {
           echo "<script>
               alert('Simpan data sukses!');
-              document.location='index.php';
+              document.location='pembayaran.php';
           </script>";
       } else {
           echo "<script>
