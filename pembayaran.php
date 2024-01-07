@@ -49,6 +49,8 @@ if (!isset($_SESSION['username_pelanggan'])) {
                                                 <span class="badge bg-info"><?= $data['status_order'] ?></span>
                                                 <?php } elseif($data['status_order'] =='Sudah Bayar') { ?>
                                                 <span class="badge bg-success"><?= $data['status_order'] ?></span>
+                                                <?php } elseif($data['status_order'] =='Ditolak') { ?>
+                                                <span class="badge bg-danger"><?= $data['status_order'] ?></span>
                                                 <?php } else { ?>
                                                     <a href="konfirmasi_pembayaran.php?hal=konfirmasi&id=<?= $data['id_order'] ?>" class="btn-link disabled">Konfirmasi Pembayaran</a>
                                                 <?php } ?>

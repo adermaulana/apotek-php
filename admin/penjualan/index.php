@@ -223,7 +223,11 @@ if(isset($_GET['hal']) == "hapus"){
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal<?= $data['id_order'] ?>" id="konfirmasiBtn<?= $data['id_order'] ?>">
-                            <?= $data['status_order'] ?>
+                            Konfirmasi
+                          </button>
+                          <!-- Tombol Tolak -->
+                          <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal<?= $data['id_order'] ?>" id="tolakBtn<?= $data['id_order'] ?>">
+                            Tolak
                           </button>
                           </div>
                         </div>
@@ -243,6 +247,7 @@ if(isset($_GET['hal']) == "hapus"){
     </main>
   </div>
 </div>
+
 
 <!-- Include jQuery -->
 <script src="../DataTables/jQuery-3.7.0/jquery-3.7.0.min.js"></script>
@@ -297,6 +302,47 @@ $(document).ready(function () {
 });
 
 </script>
+
+
+<script>
+$(document).ready(function () {
+    // Menangani klik tombol "Tolak"
+    $('body').on('click', '[id^=tolakBtn]', function () {
+        var idOrder = this.id.replace('tolakBtn', '');
+        tolakPembayaran(idOrder);
+    });
+
+    // Fungsi untuk menolak pembayaran
+    function tolakPembayaran(idOrder) {
+        $.ajax({
+            url: 'tolak_pembayaran.php', // Sesuaikan dengan path yang sesuai
+            type: 'POST',
+            data: { id_order: idOrder },
+            dataType: 'text',
+            success: function (response) {
+                if (response === 'success') {
+                    // Tolak berhasil, tutup modal
+                    $('#tolakModal' + idOrder).modal('hide');
+
+                    // Tampilkan alert berhasil
+                    alert('Pembayaran telah ditolak!');
+
+                    // Refresh halaman
+                    window.location.href = 'index.php';
+                } else {
+                    // Tampilkan alert kesalahan
+                    alert('Terjadi kesalahan saat menolak pembayaran.');
+                }
+            },
+            error: function () {
+                // Tampilkan alert kesalahan
+                alert('Terjadi kesalahan saat menolak pembayaran.');
+            }
+        });
+    }
+});
+</script>
+
 
 <script src="../DataTables/datatables.min.js"></script>
 
