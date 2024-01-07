@@ -94,8 +94,11 @@ if(isset($_POST['simpan'])){
                     <input type="text" name="total_bayar" value="Rp. <?= number_format($harga_total, 0, ',', '.') ?>" class="form-control"readonly>
                 </div>
                 <div class="mb-3">
+                    <label for="No Rekening"  class="form-label">Bank Tujuan : BCA a/n Wandi - 0583493xxx</label>
+                </div>
+                <div class="mb-3">
                     <label for="bukti_pembayaran"  class="form-label">Bukti Pembayaran</label>
-                    <input type="file" class="form-control" name="bukti_pembayaran">
+                    <input type="file" class="form-control" name="bukti_pembayaran" required>
                 </div>
                 <button  type="submit" name="simpan" class="btn btn-primary">Kirim</button>
                 </form>
