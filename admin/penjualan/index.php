@@ -14,7 +14,7 @@ if($_SESSION['status'] != 'login'){
 
 if(isset($_GET['hal']) == "hapus"){
 
-  $hapus = mysqli_query($koneksi, "DELETE FROM data_penjualan WHERE id_penjualan = '$_GET[id]'");
+  $hapus = mysqli_query($koneksi, "DELETE FROM data_order WHERE id_order = '$_GET[id]'");
 
   if($hapus){
       echo "<script>
@@ -144,24 +144,23 @@ if(isset($_GET['hal']) == "hapus"){
       </div>
     </nav>
 
-   <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+   <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mb-5">
     <div class="col-lg-12">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Data Penjualan</h1>
       </div>
 
-      <div class="table-responsive col-lg-10">
-        <a style="background-color : #3a5a40; color:white;" class="btn btn" href="tambah.php">Tambah Penjualan</a>
-        <table class="table table-striped table-sm mt-3">
+      <div class="table-responsive col-lg-12">
+        <!-- <a style="background-color : #3a5a40; color:white;" class="btn btn mb-3" href="tambah.php">Tambah Penjualan</a> -->
+        <table id="myTable" class="table table-striped table-sm mt-3">
           <thead>
             <tr>
               <th scope="col">No</th>
-              <th scope="col">Nama Obat</th>
               <th scope="col">Nama Pelanggan</th>
-              <th scope="col">Harga</th>
-              <th scope="col">Jumlah</th>
-              <th scope="col">Tanggal Beli</th>
-              <th scope="col">Harga Total</th>
+              <th scope="col">Email</th>
+              <th scope="col">Alamat</th>
+              <th scope="col">Telepon</th>
+              <th scope="col">Total</th>
               <th scope="col">Status</th>
               <th scope="col">Action</th>
             </tr>
@@ -169,40 +168,36 @@ if(isset($_GET['hal']) == "hapus"){
           <tbody>
           <?php
                 $no = 1;
-                $tampil = mysqli_query($koneksi, "SELECT p.*, o.nama_obat, pel.nama_pelanggan
-                FROM data_penjualan p
-                JOIN data_pelanggan pel ON p.id_pelanggan = pel.id_pelanggan
-                JOIN data_obat o ON p.id_obat = o.id_obat");
+                $tampil = mysqli_query($koneksi, "SELECT * FROM data_order ORDER BY id_order DESC");
                 while($data = mysqli_fetch_array($tampil)):
                 ?>
             <tr>
                     <td><?= $no++; ?></td>
-                    <td><?= $data['nama_obat']; ?></td>
-                    <td><?= $data['nama_pelanggan']; ?></td>
-                    <td><?= $data['harga_penjualan']; ?></td>
-                    <td><?= $data['jumlah_penjualan']; ?></td> 
-                    <td><?= $data['tanggal_penjualan']; ?></td> 
-                    <td>Rp. <?= number_format($data['harga_total_penjualan'],0,',','.'); ?></td> 
+                    <td><?= $data['nama_order']; ?></td>
+                    <td><?= $data['email_order']; ?></td>
+                    <td><?= $data['alamat_order']; ?></td>
+                    <td><?= $data['telepon_order']; ?></td> 
+                    <td>Rp. <?= number_format($data['total_order'],0,',','.'); ?></td> 
                     <td>
-                    <?php if($data['status_penjualan'] =='Sudah Bayar') { ?>
-                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal<?= $data['id_penjualan'] ?>">
-                      <?= $data['status_penjualan'] ?>
+                    <?php if($data['status_order'] =='Sudah Bayar') { ?>
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal<?= $data['id_order'] ?>">
+                      <?= $data['status_order'] ?>
                     </button>
-                    <?php } elseif($data['status_penjualan'] =='Pending') { ?>
-                      <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal<?= $data['id_penjualan'] ?>">
-                      <?= $data['status_penjualan'] ?>
+                    <?php } elseif($data['status_order'] =='Pending') { ?>
+                      <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal<?= $data['id_order'] ?>">
+                      <?= $data['status_order'] ?>
                     </button>
-                    <?php } elseif($data['status_penjualan'] =='Proses') { ?>
-                      <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal<?= $data['id_penjualan'] ?>">
-                      <?= $data['status_penjualan'] ?>
+                    <?php } elseif($data['status_order'] =='Proses') { ?>
+                      <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal<?= $data['id_order'] ?>">
+                      <?= $data['status_order'] ?>
                     </button>
                     <?php } else { ?>
-                      <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal<?= $data['id_penjualan'] ?>">
-                      <?= $data['status_penjualan'] ?>
+                      <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal<?= $data['id_order'] ?>">
+                      <?= $data['status_order'] ?>
                     </button>
                     <?php } ?>
                     <!-- Modal -->
-                    <div class="modal fade" id="exampleModal<?= $data['id_penjualan'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="exampleModal<?= $data['id_order'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                       <div class="modal-dialog">
                         <div class="modal-content">
                           <div class="modal-header">
@@ -211,24 +206,24 @@ if(isset($_GET['hal']) == "hapus"){
                           </div>
                           <div class="modal-body">
                           <?php
-                            $id_penjualan = $data['id_penjualan'];
-                            $query_pembayaran = mysqli_query($koneksi, "SELECT * FROM data_pembayaran WHERE id_penjualan = '$id_penjualan'");
+                            $id_penjualan = $data['id_order'];
+                            $query_pembayaran = mysqli_query($koneksi, "SELECT * FROM data_pembayaran WHERE id_order = '$id_penjualan'");
                             $data_pembayaran = mysqli_fetch_array($query_pembayaran);
                           ?>
+                          
+                          <?php if (!empty($data_pembayaran['total_pembayaran'])): ?>
                               <p>Total Bayar: <?= $data_pembayaran['total_pembayaran']; ?></p>
-
-                              <?php
-                                if (!empty($data_pembayaran['foto_pembayaran'])) {
-                                  echo '<img src="../../' . $data_pembayaran['foto_pembayaran'] . '" alt="Bukti Pembayaran" style="max-width: 100%;">';
-                                } else {
-                                  echo 'Tidak ada bukti pembayaran.';
-                                }
-                              ?>
+                              <?php if (!empty($data_pembayaran['foto_pembayaran'])): ?>
+                                  <img src="../../<?= $data_pembayaran['foto_pembayaran']; ?>" alt="Bukti Pembayaran" style="max-width: 100%;">
+                              <?php endif; ?>
+                          <?php else: ?>
+                              <p>Tidak ada bukti pembayaran.</p>
+                          <?php endif; ?>
                           </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal<?= $data['id_penjualan'] ?>" id="konfirmasiBtn<?= $data['id_penjualan'] ?>">
-                            <?= $data['status_penjualan'] ?>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal<?= $data['id_order'] ?>" id="konfirmasiBtn<?= $data['id_order'] ?>">
+                            <?= $data['status_order'] ?>
                           </button>
                           </div>
                         </div>
@@ -236,7 +231,7 @@ if(isset($_GET['hal']) == "hapus"){
                     </div>
                     </td> 
               <td>
-                    <a href="index.php?hal=hapus&id=<?= $data['id_penjualan']?>" class="badge bg-danger border-0" onclick="return confirm('Apakah Anda Yakin Ingin Menghapus Data?')"><span data-feather="x-circle"></span></a>
+                    <a href="index.php?hal=hapus&id=<?= $data['id_order']?>" class="badge bg-danger border-0" onclick="return confirm('Apakah Anda Yakin Ingin Menghapus Data?')"><span data-feather="x-circle"></span></a>
               </td>
             </tr>
             <?php
@@ -263,20 +258,20 @@ $(document).ready( function () {
 <script>
 $(document).ready(function () {
   // Fungsi untuk mengubah status dan menutup modal setelah konfirmasi
-  function konfirmasiPembayaran(idPenjualan) {
+  function konfirmasiPembayaran(idOrder) {
     $.ajax({
       url: 'konfirmasi_pembayaran.php',
       type: 'POST',
-      data: { id_penjualan: idPenjualan },
+      data: { id_order: idOrder },
       dataType: 'text',
       success: function (response) {
         if (response === 'success') {
           // Konfirmasi berhasil, ubah status dan tutup modal
-          $('#statusBtn' + idPenjualan)
+          $('#statusBtn' + idOrder)
             .removeClass('btn-info')
             .addClass('btn-success')
             .text('Sudah Bayar');
-          $('#exampleModal' + idPenjualan).modal('hide');
+          $('#exampleModal' + idOrder).modal('hide');
 
           // Tampilkan alert berhasil
           alert('Pembayaran berhasil dikonfirmasi!');
@@ -296,8 +291,8 @@ $(document).ready(function () {
 
   // Menangani klik tombol konfirmasi
   $('body').on('click', '[id^=konfirmasiBtn]', function () {
-    var idPenjualan = this.id.replace('konfirmasiBtn', '');
-    konfirmasiPembayaran(idPenjualan);
+    var idOrder = this.id.replace('konfirmasiBtn', '');
+    konfirmasiPembayaran(idOrder);
   });
 });
 

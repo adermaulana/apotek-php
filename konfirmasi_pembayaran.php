@@ -2,12 +2,18 @@
 
 if(isset($_GET['hal'])){
     if($_GET['hal'] == "konfirmasi"){
-        $tampil = mysqli_query($koneksi, "SELECT * FROM data_penjualan WHERE id_penjualan = '$_GET[id]'");
+        $tampil = mysqli_query($koneksi, "SELECT * FROM data_order WHERE id_order = '$_GET[id]'");
         $data = mysqli_fetch_array($tampil);
         if($data){
-            $id = $data['id_penjualan'];
-            $harga_total = $data['harga_total_penjualan'];
+            $id = $data['id_order'];
+            $harga_total = $data['total_order'];
         }
+
+        $query_produk = mysqli_query($koneksi, "SELECT doi.*, dobat.nama_obat
+                                      FROM data_order_item doi
+                                      JOIN data_obat dobat ON doi.id_obat = dobat.id_obat
+                                      WHERE doi.id_order = '$id'");
+        
     }
 }
 
@@ -22,11 +28,11 @@ if(isset($_POST['simpan'])){
   // Move uploaded file to the specified directory
   move_uploaded_file($gambar_temp, $upload_dir . $gambar_konfirmasi);
 
-  $update_status = mysqli_query($koneksi, "UPDATE data_penjualan SET status_penjualan = 'Proses' WHERE id_penjualan = '$_POST[id_penjualan]'");
+  $update_status = mysqli_query($koneksi, "UPDATE data_order SET status_order = 'Proses' WHERE id_order = '$_POST[id_order]'");
 
   if ($update_status) {
       // Insert into data_pembayaran
-      $simpan = mysqli_query($koneksi, "INSERT INTO data_pembayaran (id_penjualan, total_pembayaran, foto_pembayaran) VALUES ('$_POST[id_penjualan]', '$_POST[total_bayar]','$lokasi_foto')");
+      $simpan = mysqli_query($koneksi, "INSERT INTO data_pembayaran (id_order, total_pembayaran, foto_pembayaran) VALUES ('$_POST[id_order]', '$_POST[total_bayar]','$lokasi_foto')");
 
       if ($simpan) {
           echo "<script>
@@ -65,8 +71,14 @@ if(isset($_POST['simpan'])){
     <div class="col">
         <div class="card">
             <div class="card-body col-lg-10">
+            <h4>Produk yang Dibeli</h4>
+                <ul>
+                    <?php while($produk = mysqli_fetch_array($query_produk)): ?>
+                        <li><?= $produk['nama_obat'] ?> x <?= $produk['jumlah_order_item'] ?></li>
+                    <?php endwhile; ?>
+                </ul>
                 <form action="" method="post" enctype="multipart/form-data">
-                    <input type="hidden" name="id_penjualan" value="<?= $id ?>">
+                    <input type="hidden" name="id_order" value="<?= $id ?>">
                 <div class="mb-3">
                     <label for="exampleInputEmail1" class="form-label">Total Bayar</label>
                     <input type="text" name="total_bayar" value="Rp. <?= number_format($harga_total, 0, ',', '.') ?>" class="form-control"readonly>

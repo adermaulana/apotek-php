@@ -117,7 +117,7 @@ if (isset($_GET['hal']) && $_GET['hal'] == "hapus") {
                                 <span>Rp. <?= number_format($total_keranjang,0,',','.'); ?></span>
                             </li>
                         </ul>
-                        <button class="btn btn-primary mt-3">Checkout</button>
+                        <a href="checkout.php" class="btn btn-primary mt-3">Checkout</a>
                     </div>
                 </div>
             </div>
