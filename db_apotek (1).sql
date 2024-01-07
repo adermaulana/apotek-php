@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 07 Jan 2024 pada 11.54
+-- Waktu pembuatan: 07 Jan 2024 pada 15.54
 -- Versi server: 10.4.27-MariaDB
 -- Versi PHP: 8.1.12
 
@@ -62,7 +62,8 @@ CREATE TABLE `data_keranjang` (
 --
 
 INSERT INTO `data_keranjang` (`id_keranjang`, `id_obat`, `id_pelanggan`, `jumlah_keranjang`, `harga_keranjang`, `total_keranjang`) VALUES
-(18, 21, 4, 2, '3000', '6000');
+(28, 19, 2, 20, '12000', '240000'),
+(29, 21, 2, 2, '3000', '6000');
 
 -- --------------------------------------------------------
 
@@ -84,9 +85,9 @@ CREATE TABLE `data_obat` (
 --
 
 INSERT INTO `data_obat` (`id_obat`, `nama_obat`, `deskripsi_obat`, `harga_obat`, `stok_obat`, `gambar_obat`) VALUES
-(19, 'Panadol', '    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ea doloremque quisquam reiciendis consectetur qui odit illo tenetur unde pariatur fugiat quibusdam dolor, alias omnis iste esse placeat earum at assumenda! Ipsum asperiores quod, sed eligendi u', 12000, 115, 'uploads/panadol.jpg'),
+(19, 'Panadol', '    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ea doloremque quisquam reiciendis consectetur qui odit illo tenetur unde pariatur fugiat quibusdam dolor, alias omnis iste esse placeat earum at assumenda! Ipsum asperiores quod, sed eligendi u', 12000, 91, 'uploads/panadol.jpg'),
 (20, 'antimo', '        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae veritatis labore quas asperiores rerum excepturi quibusdam tenetur ipsa corrupti vero, consequuntur accusamus omnis exercitationem soluta quaerat ducimus commodi eius aliquam quos. Susc', 2000, 0, 'uploads/antimo.jpg'),
-(21, 'Mixagrip', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae veritatis labore quas asperiores rerum excepturi quibusdam tenetur ipsa corrupti vero, consequuntur accusamus omnis exercitationem soluta quaerat ducimus commodi eius aliquam quos. Suscipit, ea', 3000, 3, 'uploads/mixagrip.jpg'),
+(21, 'Mixagrip', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae veritatis labore quas asperiores rerum excepturi quibusdam tenetur ipsa corrupti vero, consequuntur accusamus omnis exercitationem soluta quaerat ducimus commodi eius aliquam quos. Suscipit, ea', 3000, 0, 'uploads/mixagrip.jpg'),
 (22, 'Paratusin', 'Paratusin untuk apa? Paratusin adalah obat untuk meringankan gejala flu seperti demam, sakit kepala, hidung tersumbat dan bersin-bersin yang disertain batuk. Obat ini masuk dalam golongan obat bebas terbatas.', 3000, 0, 'uploads/paratusin.jpeg'),
 (23, 'Decolgen', 'Decolgen cold & flu berbentuk tablet yang diproduksi oleh PT. Medifarma Laboratories dan telah terdaftar pada BPOM. Setiap tablet Decolgen mengandung 400mg paracetamol yang berfungsi sebagai pereda demam dan meringankan sakit kepala yang di sebabkan oleh ', 5600, 0, 'uploads/decolgen.jpeg');
 
@@ -112,15 +113,12 @@ CREATE TABLE `data_order` (
 --
 
 INSERT INTO `data_order` (`id_order`, `nama_order`, `email_order`, `alamat_order`, `telepon_order`, `id_pelanggan`, `total_order`, `status_order`) VALUES
-(1, 'martin', 'martin@gmail.com', 'martina', '3920392', 2, '42000', 'Belum Bayar'),
 (2, 'udin', 'udin@gmail.com', 'udin', '1212', 2, '24000', 'Proses'),
 (3, 'udin', 'udin@gmail.com', 'udin', '1212', 2, '24000', 'Proses'),
 (4, 'udin', 'udin@gmail.com', 'udin', '1212', 2, '24000', 'Ditolak'),
 (5, 'udin', 'udin@gmail.com', 'udin', '1212', 2, '24000', 'Sudah Bayar'),
 (6, 'kjcing', 'kucing@gmail.com', 'kucing', '121221', 2, '15000', 'Sudah Bayar'),
-(7, 'wakwau', 'kwau@gmail.com', 'kwauw', '121212', 2, '15000', 'Ditolak'),
-(8, 'udin', 'duin@fgmail.com', 'udin', '21212', 2, '12000', 'Ditolak'),
-(9, 'wakwu', 'wakw@gmail.com', 'wakwu', '2112', 2, '15000', 'Proses');
+(7, 'wakwau', 'kwau@gmail.com', 'kwauw', '121212', 2, '15000', 'Ditolak');
 
 -- --------------------------------------------------------
 
@@ -145,10 +143,7 @@ INSERT INTO `data_order_item` (`id_order_item`, `id_pelanggan`, `id_obat`, `id_o
 (2, 2, 21, 6, 1),
 (3, 2, 19, 6, 1),
 (4, 2, 19, 7, 1),
-(5, 2, 21, 7, 1),
-(6, 2, 19, 8, 1),
-(7, 2, 19, 9, 1),
-(8, 2, 21, 9, 1);
+(5, 2, 21, 7, 1);
 
 -- --------------------------------------------------------
 
@@ -162,18 +157,20 @@ CREATE TABLE `data_pelanggan` (
   `password_pelanggan` varchar(50) NOT NULL,
   `nama_pelanggan` varchar(50) NOT NULL,
   `alamat_pelanggan` varchar(255) NOT NULL,
-  `email_pelanggan` varchar(50) NOT NULL
+  `email_pelanggan` varchar(50) NOT NULL,
+  `telepon_pelanggan` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `data_pelanggan`
 --
 
-INSERT INTO `data_pelanggan` (`id_pelanggan`, `username_pelanggan`, `password_pelanggan`, `nama_pelanggan`, `alamat_pelanggan`, `email_pelanggan`) VALUES
-(1, 'udin', '827ccb0eea8a706c4c34a16891f84e7b', 'udin', 'udin', 'udin@gmail.com'),
-(2, 'martin', '925d7518fc597af0e43f5606f9a51512', 'martin', 'martin', 'martin@gmail.com'),
-(3, 'mak', '827ccb0eea8a706c4c34a16891f84e7b', 'makrunyil', 'makru', 'makru@gmail.com'),
-(4, 'ade', '827ccb0eea8a706c4c34a16891f84e7b', 'ndan', 'ndan', 'ndan@gmail.com');
+INSERT INTO `data_pelanggan` (`id_pelanggan`, `username_pelanggan`, `password_pelanggan`, `nama_pelanggan`, `alamat_pelanggan`, `email_pelanggan`, `telepon_pelanggan`) VALUES
+(1, 'udin', '827ccb0eea8a706c4c34a16891f84e7b', 'udin', 'udin', 'udin@gmail.com', ''),
+(2, 'martin', '925d7518fc597af0e43f5606f9a51512', 'martin', 'martin', 'martin@gmail.com', ''),
+(3, 'mak', '827ccb0eea8a706c4c34a16891f84e7b', 'makrunyil', 'makru', 'makru@gmail.com', ''),
+(4, 'ade', '827ccb0eea8a706c4c34a16891f84e7b', 'ndan', 'ndan', 'ndan@gmail.com', ''),
+(6, 'wakwau', '827ccb0eea8a706c4c34a16891f84e7b', 'wakwawu', 'alamatnya', 'wakawu@gmail.com', '093029');
 
 -- --------------------------------------------------------
 
@@ -214,9 +211,7 @@ CREATE TABLE `data_pembayaran` (
 --
 
 INSERT INTO `data_pembayaran` (`id_pembayaran`, `id_order`, `total_pembayaran`, `foto_pembayaran`) VALUES
-(17, 7, 'Rp. 15.000', 'uploads/domain.jpg'),
-(18, 9, 'Rp. 15.000', 'uploads/domain.jpg'),
-(19, 8, 'Rp. 12.000', 'uploads/panritamart.png');
+(17, 7, 'Rp. 15.000', 'uploads/domain.jpg');
 
 -- --------------------------------------------------------
 
@@ -363,7 +358,7 @@ ALTER TABLE `data_admin`
 -- AUTO_INCREMENT untuk tabel `data_keranjang`
 --
 ALTER TABLE `data_keranjang`
-  MODIFY `id_keranjang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id_keranjang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT untuk tabel `data_obat`
@@ -375,19 +370,19 @@ ALTER TABLE `data_obat`
 -- AUTO_INCREMENT untuk tabel `data_order`
 --
 ALTER TABLE `data_order`
-  MODIFY `id_order` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_order` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT untuk tabel `data_order_item`
 --
 ALTER TABLE `data_order_item`
-  MODIFY `id_order_item` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_order_item` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT untuk tabel `data_pelanggan`
 --
 ALTER TABLE `data_pelanggan`
-  MODIFY `id_pelanggan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_pelanggan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `data_pemasok`
@@ -399,7 +394,7 @@ ALTER TABLE `data_pemasok`
 -- AUTO_INCREMENT untuk tabel `data_pembayaran`
 --
 ALTER TABLE `data_pembayaran`
-  MODIFY `id_pembayaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id_pembayaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT untuk tabel `data_pembelian`
