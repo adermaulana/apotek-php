@@ -29,7 +29,7 @@ $rowpemasok = $resultpemasok->fetch_assoc();
 $jumlah_pemasok = $rowpemasok["id"];
 
 //get semua penjualan
-$penjualan = "SELECT SUM(harga_total_penjualan) as total_harga_penjualan FROM data_penjualan";
+$penjualan = "SELECT SUM(total_order) as total_harga_penjualan FROM data_order";
 $resultpenjualan = $koneksi->query($penjualan);
 $rowpenjualan = $resultpenjualan->fetch_assoc();
 $total_penjualan = $rowpenjualan["total_harga_penjualan"];

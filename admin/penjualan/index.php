@@ -235,6 +235,7 @@ if(isset($_GET['hal']) == "hapus"){
                     </div>
                     </td> 
               <td>
+                    <a href="detail.php?hal=detail&id=<?= $data['id_order']?>" class="badge bg-success border-0"><span data-feather="eye"></span></a>
                     <a href="index.php?hal=hapus&id=<?= $data['id_order']?>" class="badge bg-danger border-0" onclick="return confirm('Apakah Anda Yakin Ingin Menghapus Data?')"><span data-feather="x-circle"></span></a>
               </td>
             </tr>

@@ -12,6 +12,19 @@ if (!isset($_SESSION['username_pelanggan'])) {
 
 $id_pelanggan = $_SESSION['id_pelanggan'];
 
+if(isset($_GET['hal'])){
+    if($_GET['hal'] == "checkout"){
+        $tampil = mysqli_query($koneksi, "SELECT * FROM data_pelanggan WHERE id_pelanggan = '$_GET[id]'");
+        $data = mysqli_fetch_array($tampil);
+        if($data){
+            $nama_pelanggan = $data['nama_pelanggan'];
+            $alamat = $data['alamat_pelanggan'];
+            $email = $data['email_pelanggan'];
+            $telepon = $data['telepon_pelanggan'];
+        }
+    }
+}
+
 if(isset($_POST['simpan'])){
     // Simpan data ke tabel data_order
     $simpan_order = mysqli_query($koneksi, "INSERT INTO data_order (nama_order, email_order, alamat_order, telepon_order, id_pelanggan, total_order, status_order ) VALUES ('$_POST[nama]','$_POST[email]','$_POST[alamat]','$_POST[telepon]','$id_pelanggan','$_POST[total_order]','$_POST[status_order]')");
@@ -75,19 +88,19 @@ if(isset($_POST['simpan'])){
                         <input type="hidden" name="pelanggan_id" value="<?= $id_pelanggan ?>">
                             <div class="mb-3 col-md-8">
                                 <label class="form-label">Nama<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" name="nama" required>
+                                <input type="text" class="form-control" name="nama" value="<?= $nama_pelanggan ?>" required>
                             </div>
                             <div class="mb-3 col-md-8">
                                 <label class="form-label">Alamat<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" name="alamat" required>
+                                <input type="text" class="form-control" name="alamat" value="<?= $alamat ?>" required>
                             </div>
                             <div class="mb-3 col-md-8">
                                 <label class="form-label">Email<span class="text-danger">*</span></label>
-                                <input type="email" class="form-control" name="email" required>
+                                <input type="email" class="form-control" name="email" value="<?= $email ?>" required>
                             </div>
                             <div class="mb-3 col-md-8">
                                 <label class="form-label">Telepon<span class="text-danger">*</span></label>
-                                <input type="nujmber" class="form-control" name="telepon" required>
+                                <input type="nujmber" class="form-control" name="telepon" value="<?= $telepon ?>" required>
                             </div>
                     </div>
                 </div>
